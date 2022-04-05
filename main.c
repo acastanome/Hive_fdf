@@ -1,37 +1,12 @@
-/*
-#include <stdlib.h>
-#include <stdio.h>
 
-#include <X11/X.h>
-#include <X11/keysym.h>
-#include "mlx.h"
-*/
+#include "fdf.h"
 
-#include "mlx.h"
-#include <X11/keysym.h>//keysym XK_Escape
-
-#include <unistd.h>//write
-#include <stdlib.h>//exit
-
-#define MLX_ERROR 1
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 300
-#define RED_PIXEL 0xFF0000
-#define GREEN_PIXEL 0x00FF00
-#define BLUE_PIXEL 0x0000FF
-
-typedef struct s_data
-{
-void	*mlx;
-void	*window;
-}	t_data;
-
-void ft_putchar(char c)
+static void ft_putchar(char c)
 {
   write(1, &c, 1);
 }
 
-void ft_putnbr(int num)
+static void ft_putnbr(int num)
 {
   if (num < 0)
     {
@@ -46,7 +21,7 @@ void ft_putnbr(int num)
   ft_putchar('0' + num);
 }
 
-int key_action(int keysym, t_data *data)
+static int key_action(int keysym, t_data *data)
 {
   //  ft_putchar('X');
   //  ft_putnbr(keycode);
@@ -59,12 +34,14 @@ int key_action(int keysym, t_data *data)
   return (0);
 }
 
-int	render(t_data *data)
+static int	render(t_data *data)
 {
   if (data->window != NULL)//if window not destroyed
     {
-      mlx_pixel_put(data->mlx, data->window, (WINDOW_WIDTH / 2), (WINDOW_HEIGHT / 2), GREEN_PIXEL);
-      mlx_string_put(data->mlx, data->window, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
+      mlx_pixel_put(data->mlx, data->window, 150, 60, RED_PIXEL);
+      //mlx_string_put(data->mlx, data->window, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
+      //bresenham_line_algo(50, 50, 80, 80, data);
+      bresenham_line_algo(50, 50, 10, 20, data);
     }
   return (0);
 }
