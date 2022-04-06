@@ -1,67 +1,111 @@
 
 #include "fdf.h"
-
-static void ft_putchar(char c)
-{
-  write(1, &c, 1);
-}
-
-static void ft_putnbr(int num)
-{
-  if (num < 0)
-    {
-      write(1, "-", 1);
-      num = -num;
-    }
-  while (num > 9)//3250
-    {
-      ft_putnbr(num / 10);
-      num = num % 10;
-    }
-  ft_putchar('0' + num);
-}
+#include "../omar/libft/includes/libft.h"
+#include <stdio.h>//printf
 
 static int key_action(int keysym, t_data *data)
 {
-  //  ft_putchar('X');
-  //  ft_putnbr(keycode);
   if (keysym == XK_Escape)//65307)Esc keycode
     {
-      mlx_destroy_window(data->mlx, data->window);
-      data->window = NULL;
-      //exit (0);
+      mlx_destroy_window(data->mlx, data->win);
+      data->win = NULL;
     }
   return (0);
 }
 
 static int	render(t_data *data)
 {
-  if (data->window != NULL)//if window not destroyed
+  if (data->win != NULL)//if window not destroyed
     {
-      mlx_pixel_put(data->mlx, data->window, 150, 60, RED_PIXEL);
-      //mlx_string_put(data->mlx, data->window, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
-      //bresenham_line_algo(50, 50, 80, 80, data);
+      mlx_pixel_put(data->mlx, data->win, 150, 60, RED_PIXEL);
+      //mlx_string_put(data->mlx, data->win, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
       bresenham_line_algo(50, 50, 10, 20, data);
     }
   return (0);
 }
 
-int	main()
+static int	render_points(t_data *data)
 {
+  int	n_lines = 11;
+  int	x = 0;
+  int	y = 0;
+  //  int	elem = 0;
+  if (data->win != NULL)//if window not destroyed
+    {
+      while (y < n_lines)
+	{
+	  while (x < 19)
+	    {
+	      if ((data->lines)[y][x] == 10)
+		mlx_pixel_put(data->mlx, data->win, (50 + x), (50 + y), RED_PIXEL);
+	      else
+		mlx_pixel_put(data->mlx, data->win, (50 + x), (50 + y), WHITE_PIXEL);
+	      x++;
+	    }
+	  x = 0;
+	  y++;
+	}
+    }
+  return (0);
+}
+
+//int	main(int argc, char **argv)
+int	main(void)
+{
+  int	i = 0;
+  int	n_lines = 11;
   t_data	data;
 
+  (data.lines)[11][19] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+  /*
+  (data.lines)[0] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  (data.lines)[1] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  (data.lines)[2] = "0 0 10 10 0 0 10 10 0 0 0 10 10 10 10 10 0 0 0";
+  (data.lines)[3] = "0 0 10 10 0 0 10 10 0 0 0 0 0 0 0 10 10 0 0";
+  (data.lines)[4] = "0 0 10 10 0 0 10 10 0 0 0 0 0 0 0 10 10 0 0";
+  (data.lines)[5] = "0 0 10 10 10 10 10 10 0 0 0 0 10 10 10 10 0 0 0";
+  (data.lines)[6] = "0 0 0 10 10 10 10 10 0 0 0 10 10 0 0 0 0 0 0";
+  (data.lines)[7] = "0 0 0 0 0 0 10 10 0 0 0 10 10 0 0 0 0 0 0";
+  (data.lines)[8] = "0 0 0 0 0 0 10 10 0 0 0 10 10 10 10 10 10 0 0";
+  (data.lines)[9] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  (data.lines)[10] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  while (i < n_lines)
+    {
+      printf("%s\n", (data.lines)[i]);
+      i++;
+      }*/
+  //if (argc != 2)
+  //{
+  //ft_putstr("usage: ./fdf <filename>");
+  //exit (1);
+  //}
+  //fd = open(argv[1], O_RDONLY);
+  //if (fd == -1)
+  //return (MLX_ERROR);
+  //ret = 1;
+  //i = 1;
+  //while (ret == 1)
+  //{
+  //ret = get_next_line(fd, &line);
+  //if (line != NULL)
+  //ft_putstr(line);
+  //if (ret == 1)
+  //printf("\n");
+  //free(line);
+  //}
+  //close(fd);
   data.mlx = mlx_init();
   if (data.mlx == NULL)
     return (MLX_ERROR);
-  data.window = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Al's first window");
-  if (data.window == NULL)
+  data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Al's first window");
+  if (data.win == NULL)
     {
-      free(data.window);
+      free(data.win);
       return (MLX_ERROR);
     }
 
-  mlx_loop_hook(data.mlx, &render, &data);
-  mlx_key_hook(data.window, key_action, &data);
+  mlx_loop_hook(data.mlx, &render_points, &data);
+  mlx_key_hook(data.win, key_action, &data);
 
   mlx_loop(data.mlx);
 

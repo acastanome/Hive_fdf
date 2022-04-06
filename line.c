@@ -26,7 +26,7 @@ int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data)
 
   while (1)
     {
-      mlx_pixel_put(data->mlx, data->window, x0, y0, GREEN_PIXEL);
+      mlx_pixel_put(data->mlx, data->win, x0, y0, WHITE_PIXEL);
       if (x0 == x1 && y0 == y1)
 	break;
       e2 = 2 * error;
@@ -59,7 +59,7 @@ int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data)
 
   while (x0 <= x1)
     {
-      mlx_pixel_put(data->mlx, data->window, x0, y, GREEN_PIXEL);
+      mlx_pixel_put(data->mlx, data->win, x0, y, GREEN_PIXEL);
       if (D >= 0)
 	{
 	  y = y + 1;
