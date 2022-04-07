@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/07 18:35:15 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:27:24 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include "mlx.h"
 */
 
+#include "libft/libft.h"
+#include "get_next_line.h"
 #include "mlx.h"
 //#include <X11/keysym.h>//keysym XK_Escape
 

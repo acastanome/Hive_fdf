@@ -6,7 +6,7 @@
 #    By: acastano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/07 18:52:33 by acastano          #+#    #+#              #
-#    Updated: 2022/04/07 19:16:56 by acastano         ###   ########.fr        #
+#    Updated: 2022/04/07 20:28:29 by acastano         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,9 +16,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDES = -I ./fdf.h
+INCLUDES = -I ./libft/ -I ./fdf.h
 
-LIB = -L ~/Downloads/minilibx/ -lmlx -framework OpenGL -framework AppKit
+LIB = -L ./libft -lft -L ~/Downloads/minilibx/ -lmlx -framework OpenGL -framework AppKit
 
 SRC = main.c line.c
 
