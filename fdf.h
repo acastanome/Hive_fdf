@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
+/*   Updated: 2022/04/07 18:35:15 by acastano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
@@ -12,7 +23,7 @@
 */
 
 #include "mlx.h"
-#include <X11/keysym.h>//keysym XK_Escape
+//#include <X11/keysym.h>//keysym XK_Escape
 
 #include <unistd.h>//write
 #include <stdlib.h>//exit

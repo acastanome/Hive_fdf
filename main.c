@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
+/*   Updated: 2022/04/07 19:25:47 by acastano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fdf.h"
-#include "../omar/libft/includes/libft.h"
+#include "../../libftproject/libftfinal/libft.h"
 #include <stdio.h>//printf
 
 static int key_action(int keysym, t_data *data)
 {
-  if (keysym == XK_Escape)//65307)Esc keycode
+	//if (keysym == XK_Escape)//65307)Esc keycode
+  if (keysym == 53)//65307)Esc keycode
     {
       mlx_destroy_window(data->mlx, data->win);
       data->win = NULL;
+	  free(data->mlx);
+	  exit (1);
     }
   return (0);
 }
@@ -24,6 +38,7 @@ static int	render(t_data *data)
   return (0);
 }
 
+/*
 static int	render_points(t_data *data)
 {
   int	n_lines = 11;
@@ -48,15 +63,16 @@ static int	render_points(t_data *data)
     }
   return (0);
 }
+*/
 
 //int	main(int argc, char **argv)
 int	main(void)
 {
-  int	i = 0;
-  int	n_lines = 11;
+//  int	i = 0;
+//  int	n_lines = 11;
   t_data	data;
 
-  (data.lines)[11][19] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+//  (data.lines)[11][19] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0}, {0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 10, 10, 10, 10, 0, 0, 0}, {0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
   /*
   (data.lines)[0] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   (data.lines)[1] = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
@@ -104,13 +120,14 @@ int	main(void)
       return (MLX_ERROR);
     }
 
-  mlx_loop_hook(data.mlx, &render_points, &data);
+  //mlx_loop_hook(data.mlx, &render_points, &data);
+  mlx_loop_hook(data.mlx, &render, &data);
   mlx_key_hook(data.win, key_action, &data);
 
   mlx_loop(data.mlx);
 
-  mlx_destroy_display(data.mlx);//when no window left, this happens
-  free(data.mlx);
+//  mlx_destroy_display(data.mlx);//when no window left, this happens
+//  free(data.mlx);
   return (0);
 }
 
