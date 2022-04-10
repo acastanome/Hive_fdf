@@ -4,8 +4,7 @@ In Linux:
 - copy mlx.h to your fdf repo?
 - use X11/keysym.h in fdf.h to get keycodes directly
 - use mlx_destroy_display(data.mlk): and then free(data.mlx); before return to end program
-- gcc fdf.c -L ../minilibx-linux/ -lmlx -lX11 -lXext
-
+- gcc -Wall -Wextra -Werror -I ./libft/ fdf.h main.c line.c -L ./libft -lft -L ../minilibx-linux/ -lmlx -lX11 -lXext
 
 In school Macs:
 - download minilibx from project page
