@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/07 20:27:24 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/08 13:24:58 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,19 @@ typedef struct s_data
   void	*mlx;
   void	*win;
   int	**map;
-  int	cols;
-  int	rows;
+  int	n_rows;
+  int	*rows_width;
   int	offset;
   int	colour;
   int	i;
 }	t_data;
 
+//line.c
 int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data);
 //int	render(t_data *data);
 //int key_action(int keysym, t_data *data);
+
+//read_file.c
+int	read_file(char *file);
 
 #endif

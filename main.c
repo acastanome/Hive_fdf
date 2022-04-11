@@ -6,13 +6,12 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/07 20:51:55 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/08 14:52:45 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>//printf
-#include <fcntl.h>//open
 
 static int key_action(int keysym, t_data *data)
 {
@@ -67,10 +66,6 @@ static int	render_points(t_data *data)
 
 int	main(int argc, char **argv)
 {
-	int		fd;
-	int		ret;
-	char	*line;
-	int		n_lines = 0;
 //	int	i = 0;
 	t_data	data;
 
@@ -79,26 +74,8 @@ int	main(int argc, char **argv)
 		ft_putstr("usage: ./fdf <filename>");
 		exit (1);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		ft_putstr("Error: Failed to open file.");
-		return (MLX_ERROR);
-	}
-	ret = 1;
-	while (ret == 1)
-	{
-		ret = get_next_line(fd, &line);
-		if (line != NULL)
-		{
-			n_lines++;
-			ft_putstr(line);
-		}
-		if (ret == 1)
-			printf("\n");
-		free(line);
-	}
-	close(fd);
+
+	read_file(argv[1]);//, &data);
 
 	data.mlx = mlx_init();
 	if (data.mlx == NULL)
