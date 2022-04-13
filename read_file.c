@@ -7,7 +7,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/13 23:12:53 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/13 23:29:15 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static int	init_map(t_data *data)
 	data->map = (int **)ft_memalloc(sizeof(int *) * ((data->n_rows) + 1));
 	if (!(data->map))
 	{
-		ft_putstr("Error: Failed to allocate int **map.\n");
-		return (MLX_ERROR);
+		errors("Error: Failed to allocate int **map.\n");
+		//return (MLX_ERROR);
 	}
 	data->rows_width = (int *)ft_memalloc(sizeof(int) * data->n_rows);
 	if (!(data->rows_width))
 	{
-		ft_putstr("Error: Failed to allocate int *rows_width.\n");
+		errors("Error: Failed to allocate int *rows_width.\n");
 		//ft_strdelarray((char ***)&(data->map)) this is done before returning from read_file()
-		return (MLX_ERROR);
+		//return (MLX_ERROR);
 	}
 	return (0);
 }
@@ -45,8 +45,8 @@ static int	init_rows(char *file, t_data *data)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_putstr("Error: Failed to open file.\n");
-		return (MLX_ERROR);
+		errors("Error: Failed to open file.\n");
+//		return (MLX_ERROR);
 	}
 	ret = 1;
 	i = 0;
@@ -59,21 +59,17 @@ static int	init_rows(char *file, t_data *data)
 			(data->map)[i] = (int *)ft_memalloc(sizeof(int) * ((data->rows_width)[i] + 1));
 			if (!(data->map[i]))
 			{
-				ft_putstr("Error: Failed to allocate data->map[");
-				ft_putnbr(i);
-				ft_putstr("].\n");
+				errors("Error: Failed to allocate data->map[i].\n");
 				//ft_strdelarray((char ***)&(data->map)) this is done before returning from read_file()
-				return (MLX_ERROR);
+//				return (MLX_ERROR);
 			}
 			temp = ft_strsplit(line, ' ');
 			j = 0;
 			while (j < data->rows_width[i])
 			{
 				data->map[i][j] = ft_atoi(temp[j]);
-				printf("%d\t", data->map[i][j]);
 				j++;
 			}
-			printf("\n");
 			ft_memdelarray((void ***)&temp);
 		}
 		i++;
@@ -92,8 +88,8 @@ int	read_file(char *file, t_data *data)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_putstr("Error: Failed to open file.");
-		return (MLX_ERROR);
+		errors("Error: Failed to open file.");
+		//return (MLX_ERROR);
 	}
 	ret = 1;
 	(data->n_rows) = 0;
@@ -107,6 +103,6 @@ int	read_file(char *file, t_data *data)
 	close(fd);
 	init_map(data);
 	init_rows(file, data);
-	ft_memdelarray((void ***)&(data->map));
+//	ft_memdelarray((void ***)&(data->map)) in main
 	return (0);
 }

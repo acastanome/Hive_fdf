@@ -6,7 +6,7 @@
 #    By: acastano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/07 18:52:33 by acastano          #+#    #+#              #
-#    Updated: 2022/04/13 22:26:04 by acastano         ###   ########.fr        #
+#    Updated: 2022/04/13 23:31:22 by acastano         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ INCLUDES = -I ./libft/ -I ./fdf.h
 
 LIB = -L ./libft -lft -L ~/Downloads/minilibx/ -lmlx -framework OpenGL -framework AppKit
 
-SRC = main.c line.c read_file.c
+SRC = main.c line.c read_file.c errors.c
 
 OBJ = $(SRC:.c=.o)
 
