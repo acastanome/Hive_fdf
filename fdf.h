@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/08 13:24:58 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/11 17:31:32 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data);
 //int key_action(int keysym, t_data *data);
 
 //read_file.c
-int	read_file(char *file);
+int	read_file(char *file, t_data *data);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/08 14:52:45 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/13 22:47:09 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>//printf
-
+/*
 static int key_action(int keysym, t_data *data)
 {
 	//if (keysym == XK_Escape)//65307)Esc keycode
@@ -21,6 +21,8 @@ static int key_action(int keysym, t_data *data)
       mlx_destroy_window(data->mlx, data->win);
       data->win = NULL;
 	  free(data->mlx);
+	  free(data->map);
+	  system("leaks fdf");
 	  exit (1);
     }
   return (0);
@@ -36,7 +38,7 @@ static int	render(t_data *data)
     }
   return (0);
 }
-
+*/
 /*
 static int	render_points(t_data *data)
 {
@@ -66,7 +68,6 @@ static int	render_points(t_data *data)
 
 int	main(int argc, char **argv)
 {
-//	int	i = 0;
 	t_data	data;
 
 	if (argc != 2)
@@ -75,8 +76,8 @@ int	main(int argc, char **argv)
 		exit (1);
 	}
 
-	read_file(argv[1]);//, &data);
-
+	read_file(argv[1], &data);
+/*
 	data.mlx = mlx_init();
 	if (data.mlx == NULL)
 		return (MLX_ERROR);
@@ -92,8 +93,18 @@ int	main(int argc, char **argv)
 	mlx_key_hook(data.win, key_action, &data);
 
 	mlx_loop(data.mlx);
-
+*/
 //  mlx_destroy_display(data.mlx);//when no window left, this happens
 //  free(data.mlx);
+//	printf("is info still here? %d\n", *data.rows_width);
+	data.i = 0;
+/*	while (data.i <= data.n_rows) CAUSES ERROR VALGRIND
+	{
+		ft_memdel((void *)&(data.map[data.i]));
+		data.i++;
+	}*/
+	ft_memdel((void *)&(data.rows_width));
+	ft_memdel((void **)data.map);
+//	system("leaks fdf");
 	return (0);
 }
