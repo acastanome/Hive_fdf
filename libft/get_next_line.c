@@ -6,15 +6,15 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:02:58 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/07 20:26:12 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:43:55 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdlib.h>
-# define BUFF_SIZE 32
-# define FD_MAX 8192
+#define BUFF_SIZE 32
+#define FD_MAX 8192
 
 /*
 **Looks for a line (chars ending with \n) in saved_text.

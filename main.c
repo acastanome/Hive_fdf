@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/13 23:29:52 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/14 17:44:34 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 		data.i++;
 	}*/
 	ft_memdel((void *)&(data.rows_width));
-	ft_memdelarray((void ***)&(data.map));//	ft_memdel((void **)data.map)
+	ft_memdelarray((void ***)&(data.map));
 //	system("leaks fdf");
 	return (0);
 }

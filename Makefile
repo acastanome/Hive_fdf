@@ -6,7 +6,7 @@
 #    By: acastano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/07 18:52:33 by acastano          #+#    #+#              #
-#    Updated: 2022/04/13 23:31:22 by acastano         ###   ########.fr        #
+#    Updated: 2022/04/14 16:36:25 by acastano         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,12 +27,15 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME):
+	@make -C libft/
 	$(CC) $(CFLAGS) $(INCLUDES) $(SRC) $(LIB) -o $(NAME)
 
 clean:
-	/bin/rm -f *.o
+	@make clean -C libft/
+	/bin/rm -f $(OBJ)
 
 fclean: clean
+	@make fclean -C libft/
 	/bin/rm -f $(NAME)
 
 re: fclean all
