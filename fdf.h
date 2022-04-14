@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 16:59:01 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/14 20:08:35 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 #include <stdlib.h>//exit
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define WIN_WIDTH 1000
+# define WIN_HEIGHT 1000
 # define WHITE_PIXEL 0xFFFFFF
 # define BLACK_PIXEL 0x000000
 # define RED_PIXEL 0xFF0000
@@ -62,5 +62,8 @@ int	read_file(char *file, t_data *data);
 
 //errors.c
 void	errors(char *s);
+
+//render_map.c
+int	render_map(t_data *data);
 
 #endif

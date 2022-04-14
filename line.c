@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/07 15:56:54 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/14 20:38:04 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,51 @@
 #include <math.h>
 
 /*
- * bresenham_line_algo() draws a line to the window defined in data. Works in all octants.
+ * bresenham_line_algo() draws a line to the window defined in data.
+ * Works in all octants.
  */
 int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data)
 {
-  int	dx;
-  int	sx;
-  int	dy;
-  int	sy;
-  int	error;
-  int	e2;
+	int	dx;
+	int	sx;
+	int	dy;
+	int	sy;
+	int	error;
+	int	e2;
 
-  dx = abs(x1 - x0);
-  if (x0 < x1)
-    sx = 1;
-  else sx = -1;
-  dy = -abs(y1 - y0);
-  if (y0 < y1)
-    sy = 1;
-  else sy = -1;
-  error = dx + dy;
+	data->offset = 50;
+	dx = abs(x1 - x0);
+	if (x0 < x1)
+		sx = 1;
+	else sx = -1;
+	dy = -abs(y1 - y0);
+	if (y0 < y1)
+		sy = 1;
+	else sy = -1;
+	error = dx + dy;
 
-  while (1)
-    {
-      mlx_pixel_put(data->mlx, data->win, x0, y0, WHITE_PIXEL);
-      if (x0 == x1 && y0 == y1)
-	break;
-      e2 = 2 * error;
-      if (e2 >= dy)
+	while (1)
 	{
-	  if (x0 == x1)
-	    break;
-	  error = error + dy;
-	  x0 = x0 + sx;
+		mlx_pixel_put(data->mlx, data->win, (x0 + data->offset), (y0 + data->offset), WHITE_PIXEL);
+		if (x0 == x1 && y0 == y1)
+			break;
+		e2 = 2 * error;
+		if (e2 >= dy)
+		{
+			if (x0 == x1)
+				break;
+			error = error + dy;
+			x0 = x0 + sx;
+		}
+		if (e2 <= dx)
+		{
+			if (y0 == y1)
+				break;
+			error = error + dx;
+			y0 = y0 + sy;
+		}
 	}
-      if (e2 <= dx)
-	{
-	  if (y0 == y1)
-	    break;
-	  error = error + dx;
-	  y0 = y0 + sy;
-	}
-    }
-  return (0);
+	return (0);
 }
 
 /*
