@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 20:53:07 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/14 21:12:33 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,23 @@ int	render_map(t_data *data)
 			while (x < data->rows_width[y])
 			{
 				if (data->map[y][x + 1] != '\0')
-					bresenham_line_algo(x, y, ((x + 1) * dist), (y * dist), data);		
+					bresenham_line_algo((x * dist), (y * dist), ((x + 1) * dist), (y * dist), data);		
 				x++;
 			}
 			y++;
 		}
+/*		x = 0;
+		while (x < data->rows_width[y])
+		{
+			y = 0;
+			while (y < data->n_rows)
+			{
+				if (data->map[y + 1][x] != '\0')
+					bresenham_line_algo((x * dist), (y * dist), (x * dist), ((y + 1) * dist), data);		
+				y++;
+			}
+			x++;
+		}*/
 	}
 	return (0);
 }
