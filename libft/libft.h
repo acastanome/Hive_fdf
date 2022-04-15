@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:23:54 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 17:43:23 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/15 18:15:35 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ size_t	ft_strlen_tochar(const char *s, char c);
 int		get_next_line(const int fd, char **line);
 
 //Added
-void	ft_memdelarray(void ***arr);
+void	ft_memdelarray(void **arr);
 
 #endif

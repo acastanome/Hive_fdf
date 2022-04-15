@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 19:26:50 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/15 19:35:04 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	init_row(char *line, t_data *data)
 	int		j;
 
 	data->rows_width[data->i] = ft_word_count(line, ' ');
-	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int) * ((data->rows_width)[data->i] + 1));
+	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int) * ((data->rows_width)[data->i]));//((data->rows_width)[data->i] + 1))
 	if (!(data->map[data->i]))
 		errors("Error: Failed to allocate data->map[data->i].\n");
 	temp = ft_strsplit(line, ' ');
@@ -30,7 +30,7 @@ static int	init_row(char *line, t_data *data)
 		data->map[data->i][j] = ft_atoi(temp[j]);
 		j++;
 	}
-	ft_memdelarray((void ***)&temp);
+	ft_memdelarray((void *)&temp);
 	return (0);
 }
 
@@ -39,7 +39,7 @@ static int	init_map(char *file, t_data *data)
 	int		ret;
 	char	*line;
 
-	data->map = (int **)ft_memalloc(sizeof(int *) * ((data->n_rows) + 1));
+	data->map = (int **)ft_memalloc(sizeof(int *) * (data->n_rows));//((data->n_rows) + 1))
 	if (!(data->map))
 		errors("Error: Failed to allocate int **map.\n");
 	data->rows_width = (int *)ft_memalloc(sizeof(int) * data->n_rows);

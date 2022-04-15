@@ -6,14 +6,14 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 23:10:28 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 17:44:15 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/15 18:15:15 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-void	ft_memdelarray(void ***array)
+void	ft_memdelarray(void **array)
 {
 	void	**temp;
 

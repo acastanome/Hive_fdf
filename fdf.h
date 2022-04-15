@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 20:08:35 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/15 18:35:34 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 */
 
 #include "libft/libft.h"
-#include "get_next_line.h"
 #include "mlx.h"
+//#include <keys.h>
 //#include <X11/keysym.h>//keysym XK_Escape
 
 #include <unistd.h>//write
