@@ -35,13 +35,11 @@ char	*ft_itoa(int n)
 {
 	char		*s;
 	int			el;
-	int			i;
 	long int	nl;
 
 	nl = n;
 	el = ft_elements(nl);
 	s = ft_strnew(el);
-	i = 0;
 	if (!s)
 		return (NULL);
 	if (nl < 0)

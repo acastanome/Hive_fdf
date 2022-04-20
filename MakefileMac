@@ -16,9 +16,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDES = -I ./libft/ ./fdf.h
+INCLUDES = -I ./libft/ -I ./fdf.h
 
-LIB = -L ./libft -lft -L ~/minilibx-linux/ -lmlx -lX11 -lXext
+LIB = -L ./libft -lft -L ~/Downloads/minilibx/ -lmlx -framework OpenGL -framework AppKit
 
 SRC = main.c line.c read_file.c errors.c render_map.c
 

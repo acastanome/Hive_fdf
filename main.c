@@ -15,7 +15,7 @@
 
 static int key_action(int keysym)//, t_data *data)
 {
-	if (keysym == 53)//if (keysym == XK_Escape)//65307)Esc keycode
+	if (keysym == 53 || keysym == 65307)//if (keysym == XK_Escape)//65307)Esc keycode
     {
 		exit (0);
 /*		mlx_destroy_window(data->mlx, data->win);

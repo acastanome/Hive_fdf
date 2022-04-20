@@ -58,39 +58,38 @@ static int	render_points(t_data *data)
 
 int	render_map(t_data *data)
 {
-	if (data->win != NULL)//if window not destroyed
+  data->offset = 50;
+  data->dist = 50;
+  if (data->win != NULL)//if window not destroyed
     {
-		//mlx_string_put(data->mlx, data->win, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
-//      bresenham_line_algo(0, 0, (1 * 10), (1 * 10), data);
-		int	 x = 0;
-		int	 y = 0;
-		int	dist = 20;
+      //mlx_string_put(data->mlx, data->win, 50, 50, GREEN_PIXEL, "INSTRUCTIONS\nPress Esc to Exit");//16777215
+      //      bresenham_line_algo(0, 0, (1 * 10), (1 * 10), data);
+      data->y0 = 0;
+      //      int	dist = 20;
 
-		while (y < data->n_rows)
+      while (data->y0 < data->n_rows)
+	{
+	  data->x0 = 0;
+	  while (data->x0 < data->rows_width[data->y0])
+	    {
+	      if ((data->x0 + 1) < data->rows_width[data->y0])
 		{
-			x = 0;
-			while (x < data->rows_width[y])
-			{
-//				if (data->map[y][x + 1])
-				bresenham_line_algo((x * dist), (y * dist), ((x + 1) * dist), (y * dist), data);
-				if (((y + 1) < data->n_rows) && (x < data->rows_width[y + 1]))
-					bresenham_line_algo((x * dist), (y * dist), (x * dist), ((y + 1) * dist), data);
-				x++;
-			}
-			y++;
+		  data->x1 = data->x0 + 1;
+		  data->y1 = data->y0;
+		  data->p0 = (data->x0 * data->dist) + data->offset;
+		  draw_line(data->x0, data->y0, data->x1, data->y1, data);
 		}
-/*		x = 0;
-		while (x < data->rows_width[y])
+	      if (((data->y0 + 1) < data->n_rows) && (data->x0 < data->rows_width[data->y0 + 1]))
 		{
-			y = 0;
-			while (y < data->n_rows)
-			{
-				if (data->map[y + 1][x] != '\0')
-					bresenham_line_algo((x * dist), (y * dist), (x * dist), ((y + 1) * dist), data);		
-				y++;
-			}
-			x++;
-		}*/
+		  data->x1 = data->x0;
+		  data->y1 = data->y0 + 1;
+		  data->p0 = (data->y0 * data->dist) + data->offset;
+		  draw_line(data->x0, data->y0, data->x1, data->y1, data);
+		}
+	      data->x0++;
+	    }
+	  data->y0++;
 	}
-	return (0);
+    }
+  return (0);
 }

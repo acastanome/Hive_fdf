@@ -47,12 +47,20 @@ typedef struct s_data
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
+  int	x0;
+  int	y0;
+  int	x1;
+  int	y1;
+  int	*p;
+  int	p0;
 	int		offset;
+  	int		dist;
 	int		colour;
 	int		i;
 }			t_data;
 
 //line.c
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data);
 int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data);
 //int	render(t_data *data);
 //int key_action(int keysym, t_data *data);
