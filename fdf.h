@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/22 15:15:59 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/22 17:20:21 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_data
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
+  int	max_h;
+  int	min_h;
   int	x0;
   int	y0;
   int	x1;

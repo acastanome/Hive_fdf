@@ -6,66 +6,17 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/22 16:20:09 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/22 18:17:43 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <math.h>
+#include <stdio.h>//printf
 
-/*int	rgb_toi(float r, float g, float b)
-{
-  int	rgb;
-
-  rgb = (r * 255) << 16;
-  rgb |= ((g * 255) << 8);
-  rgb |= (b * 255);
-  return rgb;
-}*/
-
-/*
- * point_height() uses linear equation to calculate the height at any point of
- * a line. Then uses this height to calculate the colour the pixels should have.
- */
-int	point_height_colour(t_data *data)
-{
-	int	h;
-	int	h0;
-	int	h1;
-	int	colour;
-
-	h0 = data->map[data->y0][data->x0];
-	h1 = data->map[data->y1][data->x1];
-
-	if (h0 == h1)
-		h = h0;
-	else if (h0 < h1)
-	{
-		if (data->y1 == data->y0)
-			data->DC = data->Rx0 - (data->x0 * data->dist + data->offset);
-		else
-			data->DC = data->Ry0 - (data->y0 * data->dist + data->offset);
-		h = (h1 * data->DC) / data->BC;
-	}
-	else
-	{
-		if (data->y1 == data->y0)
-			data->DC = (data->x1 * data->dist + data->offset) - data->Rx0;
-		else
-			data->DC = (data->y1 * data->dist + data->offset) - data->Ry0;
-		h = (h0 * data->DC) / data->BC;
-	}
-	if (h == 0)
-		colour = WHITE_PIXEL;
-	else
-	{
-		if (h < 6)
-			colour = RED_PIXEL;
-		else
-			colour = GREEN_PIXEL;
-	}
-	return (colour);
-}
+static int	calculate_colour(float colour_percent);
+//static int	rgb_toi(float r, float g, float b);
+static int	point_height_colour(t_data *data);
 
 void	draw_line(t_data *data)
 {
@@ -125,6 +76,78 @@ int	bresenham_line_algo(t_data *data)
 	}
 	return (0);
 }
+
+/*
+ * point_height() uses linear equation to calculate the height at any point of
+ * a line. Then uses this height to calculate the colour the pixels should have.
+ */
+static int	point_height_colour(t_data *data)
+{
+	float	h;
+	float	h0;
+	float	h1;
+	int	colour;
+	float	colour_perc;
+
+	h0 = data->map[data->y0][data->x0];
+	h1 = data->map[data->y1][data->x1];
+
+	if (h0 == h1)
+		h = h0;
+	else if (h0 < h1)
+	{
+		if (data->y1 == data->y0)
+			data->DC = data->Rx0 - (data->x0 * data->dist + data->offset);
+		else
+			data->DC = data->Ry0 - (data->y0 * data->dist + data->offset);
+		h = (h1 * data->DC) / data->BC;
+	}
+	else
+	{
+		if (data->y1 == data->y0)
+			data->DC = (data->x1 * data->dist + data->offset) - data->Rx0;
+		else
+			data->DC = (data->y1 * data->dist + data->offset) - data->Ry0;
+		h = (h0 * data->DC) / data->BC;
+	}
+/*	if (h == 0)
+		colour = WHITE_PIXEL;
+	else
+	{
+		if (h < 6)
+			colour = RED_PIXEL;
+		else
+			colour = GREEN_PIXEL;
+			}*/
+	colour_perc = ((h * 100) / (data->max_h - data->min_h) ) / 100;
+	colour = calculate_colour(colour_perc);
+	if (data->y0 == 2 && data->y1 == 2)
+		printf("h= %f, perc= %f and col= %d\t", h, colour_perc, colour);
+	return (colour);
+}
+
+static int	calculate_colour(float colour_percent)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = colour_percent * 255;
+	g = colour_percent * 255;
+	b = colour_percent * 255;
+	return (((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff));
+}
+
+/*
+static int	rgb_toi(float r, float g, float b)
+{
+	int	rgb;
+
+	rgb = (((r * 255) & 0x0ff) << 16);
+	rgb |= (((g * 255) & 0x0ff) << 8);
+	rgb |= ((b * 255) & 0x0ff);
+	return rgb;
+}*/
 
 /*
 Works for octant 0, that is lines with slope between 0 and 1.
