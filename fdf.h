@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/15 18:35:34 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/22 15:15:59 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #include <stdlib.h>//exit
 
 # define MLX_ERROR 1
-# define WIN_WIDTH 1000
+# define WIN_WIDTH 1500
 # define WIN_HEIGHT 1000
 # define WHITE_PIXEL 0xFFFFFF
 # define BLACK_PIXEL 0x000000
@@ -51,8 +51,14 @@ typedef struct s_data
   int	y0;
   int	x1;
   int	y1;
-  int	*p;
-  int	p0;
+	int	Rx0;
+  int	Ry0;
+  int	Rx1;
+  int	Ry1;
+  int	BC;
+  int	DC;
+  int	dx;
+  int	dy;
 	int		offset;
   	int		dist;
 	int		colour;
@@ -60,8 +66,8 @@ typedef struct s_data
 }			t_data;
 
 //line.c
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data);
-int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data);
+void	draw_line(t_data *data);
+int	bresenham_line_algo(t_data *data);
 //int	render(t_data *data);
 //int key_action(int keysym, t_data *data);
 

@@ -6,7 +6,7 @@
 #    By: acastano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/07 18:52:33 by acastano          #+#    #+#              #
-#    Updated: 2022/04/22 16:26:23 by acastano         ###   ########.fr        #
+#    Updated: 2022/04/14 20:09:09 by acastano         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,9 +16,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDES = -I ./libft/ -I ./fdf.h
+INCLUDES = -I ./libft/ ./fdf.h
 
-LIB = -L ./libft -lft -L ~/Downloads/minilibx/ -lmlx -framework OpenGL -framework AppKit
+LIB = -L ./libft -lft -L ~/minilibx-linux/ -lmlx -lX11 -lXext
 
 SRC = main.c line.c read_file.c errors.c render_map.c
 

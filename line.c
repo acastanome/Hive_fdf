@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/14 20:38:04 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/22 16:20:09 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,85 +27,100 @@
  * point_height() uses linear equation to calculate the height at any point of
  * a line. Then uses this height to calculate the colour the pixels should have.
  */
-int	point_height(t_data *data)
+int	point_height_colour(t_data *data)
 {
-  int	h;
-  int	h0;
-  int	h1;
-  int	colour;
+	int	h;
+	int	h0;
+	int	h1;
+	int	colour;
 
-  h0 = data->map[data->y0][data->x0];
-  h1 = data->map[data->y1][data->x1];
-  h = ((h1 - h0) / data->dist) * ((*(data->p)) - data->p0) + h0;
-  //ft_putnbr(h);
-  //write(1, " ", 1);
-  if (h == 0)
-    colour = WHITE_PIXEL;
-  else if (h > 5 && h < 10)
-    colour = RED_PIXEL;
-  else
-    colour = GREEN_PIXEL;
-  return (colour);
+	h0 = data->map[data->y0][data->x0];
+	h1 = data->map[data->y1][data->x1];
+
+	if (h0 == h1)
+		h = h0;
+	else if (h0 < h1)
+	{
+		if (data->y1 == data->y0)
+			data->DC = data->Rx0 - (data->x0 * data->dist + data->offset);
+		else
+			data->DC = data->Ry0 - (data->y0 * data->dist + data->offset);
+		h = (h1 * data->DC) / data->BC;
+	}
+	else
+	{
+		if (data->y1 == data->y0)
+			data->DC = (data->x1 * data->dist + data->offset) - data->Rx0;
+		else
+			data->DC = (data->y1 * data->dist + data->offset) - data->Ry0;
+		h = (h0 * data->DC) / data->BC;
+	}
+	if (h == 0)
+		colour = WHITE_PIXEL;
+	else
+	{
+		if (h < 6)
+			colour = RED_PIXEL;
+		else
+			colour = GREEN_PIXEL;
+	}
+	return (colour);
 }
 
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data)
+void	draw_line(t_data *data)
 {
-  //  data->offset = 50;
-  //  data->dist = 20;
-  x0 = (x0 * data->dist) + data->offset;
-  y0 = (y0 * data->dist) + data->offset;
-  x1 = (x1 * data->dist) + data->offset;
-  y1 = (y1 * data->dist) + data->offset;
-  bresenham_line_algo(x0, y0, x1, y1, data);
+	data->Rx0 = (data->x0 * data->dist) + data->offset;
+	data->Ry0 = (data->y0 * data->dist) + data->offset;
+	data->Rx1 = (data->x1 * data->dist) + data->offset;
+	data->Ry1 = (data->y1 * data->dist) + data->offset;
+
+	if (data->y1 == data->y0)
+		data->BC = data->Rx1 - data->Rx0;
+	else
+		data->BC = data->Ry1 - data->Ry0;
+	bresenham_line_algo(data);
 }
 
 /*
- * bresenham_line_algo() draws a line to the window defined in data.
+ * bresenham_line_algo() calculates the pixels that need to be rendered to draw
+ * a line from (x0, y0) to (x1, y1), on the window defined in data.
  * Works in all octants.
  */
-int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data)
+int	bresenham_line_algo(t_data *data)
 {
-	int	dx;
 	int	sx;
-	int	dy;
 	int	sy;
 	int	error;
 	int	e2;
 
-	if (data->p0 == x0)
-	  data->p = &x0;
-	else
-	  data->p = &y0;
-	dx = abs(x1 - x0);
-	if (x0 < x1)
+	data->dx = abs(data->Rx1 - data->Rx0);
+	if (data->Rx0 < data->Rx1)
 		sx = 1;
 	else sx = -1;
-	dy = -abs(y1 - y0);
-	if (y0 < y1)
+	data->dy = -abs(data->Ry1 - data->Ry0);
+	if (data->Ry0 < data->Ry1)
 		sy = 1;
 	else sy = -1;
-	error = dx + dy;
-
+	error = data->dx + data->dy;
 	while (1)
 	{
-	  mlx_pixel_put(data->mlx, data->win, x0, y0, point_height(data));
-	  //mlx_pixel_put(data->mlx, data->win, (x0 + data->offset), (y0 + data->offset), WHITE_PIXEL);
-		if (x0 == x1 && y0 == y1)
+		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, point_height_colour(data));
+		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;
 		e2 = 2 * error;
-		if (e2 >= dy)
+		if (e2 >= data->dy)
 		{
-			if (x0 == x1)
+			if (data->Rx0 == data->Rx1)
 				break;
-			error = error + dy;
-			x0 = x0 + sx;
+			error = error + data->dy;
+			data->Rx0 = data->Rx0 + sx;
 		}
-		if (e2 <= dx)
+		if (e2 <= data->dx)
 		{
-			if (y0 == y1)
+			if (data->Ry0 == data->Ry1)
 				break;
-			error = error + dx;
-			y0 = y0 + sy;
+			error = error + data->dx;
+			data->Ry0 = data->Ry0 + sy;
 		}
 	}
 	return (0);
