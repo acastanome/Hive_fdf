@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/22 17:24:46 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:32:12 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	init_map(char *file, t_data *data)
 		errors("Error: Failed to open file.\n");
 	ret = 1;
 	data->i = 0;
+	data->min_h = 0;
+	data->max_h = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(data->fd, &line);
@@ -64,8 +66,6 @@ static int	init_map(char *file, t_data *data)
 		ft_memdel((void *)&line);
 	}
 	close(data->fd);
-	data->min_h = 0;
-	data->max_h = 0;
 	return (0);
 }
 

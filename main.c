@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/15 18:55:39 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:45:24 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,7 @@
 static int key_action(int keysym)//, t_data *data)
 {
 	if (keysym == 53 || keysym == 65307)//if (keysym == XK_Escape)//65307)Esc keycode
-    {
 		exit (0);
-/*		mlx_destroy_window(data->mlx, data->win);
-		ft_memdel(data->win);//free
-//		data->win = NULL;
-		ft_memdel(data->mlx);//free
-		ft_memdelarray((void *)&(data->map));
-//		ft_memdel((void **)data->map)//free
-		ft_memdel((void *)&(data->rows_width));
-*/
-    }
 	return (0);
 }
 
@@ -37,16 +27,12 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		errors("usage: ./fdf <filename>\n");
 	read_file(argv[1], &data);
-
 	data.mlx = mlx_init();
 	if (data.mlx == NULL)
 		errors("Error: mlx_init() failed.\n");
 	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Al's fdf");
 	if (data.win == NULL)
-	{
-		free(data.win);
 		errors("mlx_new_window() failed.\n");
-	}
 	mlx_loop_hook(data.mlx, &render_map, &data);
 	mlx_key_hook(data.win, key_action, &data);
 
