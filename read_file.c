@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/25 15:32:12 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:46:02 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ static int	init_map(char *file, t_data *data)
 		errors("Error: Failed to open file.\n");
 	ret = 1;
 	data->i = 0;
-	data->min_h = 0;
-	data->max_h = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(data->fd, &line);
@@ -83,6 +81,11 @@ static int	init_row(char *line, t_data *data)
 	while (j < data->rows_width[data->i])
 	{
 		data->map[data->i][j] = ft_atoi(temp[j]);
+		if (data->i == 0 && j == 0)
+		{
+			data->min_h = data->map[data->i][j];
+			data->max_h = data->map[data->i][j];
+		}
 		if (data->map[data->i][j] < data->min_h)
 			data->min_h = data->map[data->i][j];
 		if (data->map[data->i][j] > data->max_h)
