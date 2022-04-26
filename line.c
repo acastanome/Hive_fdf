@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/25 16:34:19 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:01:20 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <math.h>
 #include <stdio.h>//printf
 
-static int	scale_rgb(float scale);
-static float	calc_colour(t_data *data, float h);
+int	scale_rgb(float scale);
+float	calc_colour(t_data *data, float h);
 //int	calculate_colour(float colour_percent);
 //static int	rgb_toi(float r, float g, float b);
-static int	point_height_colour(t_data *data);
+int	point_height_colour(t_data *data);
 
 void	draw_line(t_data *data)
 {
@@ -27,6 +27,8 @@ void	draw_line(t_data *data)
 	data->Rx1 = (data->x1 * data->dist) + data->offset;
 	data->Ry1 = (data->y1 * data->dist) + data->offset;
 
+	if (data->projection == ISO)
+		transform_iso(data);
 	if (data->y1 == data->y0)
 		data->BC = data->Rx1 - data->Rx0;
 	else
@@ -57,7 +59,8 @@ int	bresenham_line_algo(t_data *data)
 	error = data->dx + data->dy;
 	while (1)
 	{
-		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, point_height_colour(data));
+//		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, point_height_colour(data));
+		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, WHITE_PIXEL);
 		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;
 		e2 = 2 * error;
@@ -84,7 +87,7 @@ int	bresenham_line_algo(t_data *data)
  * a line. Then calls calc_colour() with that height to get the colour the pixels
  * should have.
  */
-static int	point_height_colour(t_data *data)
+int	point_height_colour(t_data *data)
 {
 	float	h;
 	float	h0;
@@ -116,7 +119,7 @@ static int	point_height_colour(t_data *data)
 	return (calc_colour(data, h));
 }
 
-static float	calc_colour(t_data *data, float h)
+float	calc_colour(t_data *data, float h)
 {
 	float	colour_perc;
 	int		colour;
@@ -126,14 +129,12 @@ static float	calc_colour(t_data *data, float h)
 	else
 	{
 		colour_perc = (h - data->min_h) / (data->max_h - data->min_h);//0 30 100 0.3 - 30 65 100 - 30 50 230
-		//colour = colour_perc * GREEN_PIXEL;
-//		colour = colour_perc * WHITE_PIXEL;
 		colour = scale_rgb(colour_perc);
 	}
 	return (colour);
 }
 
-static int	scale_rgb(float percent)
+int	scale_rgb(float percent)
 {
 	int	rgb_percent;
 	int	rgb;

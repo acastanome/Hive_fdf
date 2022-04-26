@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/22 17:20:21 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:55:59 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,23 @@
 
 #include <unistd.h>//write
 #include <stdlib.h>//exit
+#include <stdio.h>//printf
 
 # define MLX_ERROR 1
 # define WIN_WIDTH 1500
 # define WIN_HEIGHT 1000
+# define TOP 1
+# define FRONT 2
+# define ISO 3
+
 # define WHITE_PIXEL 0xFFFFFF
 # define BLACK_PIXEL 0x000000
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0x00FF00
 # define BLUE_PIXEL 0x0000FF
+
+# define SIN_30 0.5
+# define COS_30 0.8660254
 
 typedef struct s_data
 {
@@ -47,6 +55,7 @@ typedef struct s_data
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
+	int	projection;
   int	max_h;
   int	min_h;
   int	x0;
@@ -80,6 +89,7 @@ int	read_file(char *file, t_data *data);
 void	errors(char *s);
 
 //render_map.c
+void	transform_iso(t_data *data);
 int	render_map(t_data *data);
 
 #endif

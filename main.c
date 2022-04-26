@@ -6,17 +6,30 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/25 15:45:24 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:57:04 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>//printf
 
-static int key_action(int keysym)//, t_data *data)
+//if (keysym == XK_Escape)//65307)Esc keycode
+//123 arrow left, 124 arrow right, 125 arrow down, 126 arrow up
+static int key_action(int keysym, t_data *data)
 {
-	if (keysym == 53 || keysym == 65307)//if (keysym == XK_Escape)//65307)Esc keycode
+	if (keysym == 53 || keysym == 65307)
 		exit (0);
+	if (keysym == 17)
+		data->projection = TOP;
+	if (keysym == 3)
+		data->projection = FRONT;
+	if (keysym == 34)
+		data->projection = ISO;
+	else
+	{
+		ft_putnbr(keysym);
+		ft_putstr(" ");
+	}
 	return (0);
 }
 
@@ -24,6 +37,7 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	data.projection = TOP;
 	if (argc != 2)
 		errors("usage: ./fdf <filename>\n");
 	read_file(argv[1], &data);

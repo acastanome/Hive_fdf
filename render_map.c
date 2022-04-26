@@ -6,11 +6,12 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/22 17:07:29 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:39:38 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <math.h>
 
 static void	render_text(t_data *data)
 {
@@ -49,7 +50,32 @@ int	render_map(t_data *data)
 			}
 			data->y0++;
 		}
-    }
+		}
 	render_text(data);
 	return (0);
 }
+
+void	transform_iso(t_data *data)
+{
+	int	tempRx0;
+	int	tempRy0;
+	int	tempRx1;
+	int	tempRy1;
+
+	tempRx0 = (data->Rx0 - data->Ry0) * COS_30;
+	tempRy0 = -(data->map[data->y0][data->x0]) + (data->Rx0 + data->Ry0) * SIN_30;
+	tempRx1 = (data->Rx1 - data->Ry1) * COS_30;
+	tempRy1 = -(data->map[data->y1][data->x1]) + (data->Rx1 + data->Ry1) * SIN_30;
+
+//	printf("\th = %d.\t", data->map[data->y0][data->x0]);
+	data->Rx0 = tempRx0;
+	data->Ry0 = tempRy0;
+	data->Rx1 = tempRx1;
+	data->Ry1 = tempRy1;
+}
+
+/*
+ * 30 degrees = 0.523598776 rad
+ * ptr->x = (x - y) * cos(30)
+ * ptr->y = -z + (x + y) * sin(30)
+ */
