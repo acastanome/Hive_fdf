@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 15:57:04 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:19:41 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	data.projection = TOP;
 	if (argc != 2)
 		errors("usage: ./fdf <filename>\n");
 	read_file(argv[1], &data);

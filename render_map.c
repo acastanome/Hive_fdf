@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 15:39:38 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:24:19 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	render_map(t_data *data)
 {
 	data->offset = 100;
 	data->dist = 50;
+	mlx_clear_window(data->mlx, data->win);
 	if (data->win != NULL)
     {
 		data->y0 = 0;
