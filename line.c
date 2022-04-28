@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 16:01:20 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/28 21:37:20 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@ int	point_height_colour(t_data *data);
 
 void	draw_line(t_data *data)
 {
+/*
 	data->Rx0 = (data->x0 * data->dist) + data->offset;
 	data->Ry0 = (data->y0 * data->dist) + data->offset;
 	data->Rx1 = (data->x1 * data->dist) + data->offset;
 	data->Ry1 = (data->y1 * data->dist) + data->offset;
+*/
+	data->Rx0 = data->x0 * data->dist;
+	data->Ry0 = data->y0 * data->dist;
+	data->Rx1 = data->x1 * data->dist;
+	data->Ry1 = data->y1 * data->dist;
 
 	if (data->projection == ISO)
 		transform_iso(data);
+	if (data->projection == FRONT)
+		transform_front(data);
 	if (data->y1 == data->y0)
 		data->BC = data->Rx1 - data->Rx0;
 	else
@@ -52,26 +60,27 @@ int	bresenham_line_algo(t_data *data)
 	if (data->Rx0 < data->Rx1)
 		sx = 1;
 	else sx = -1;
-	data->dy = -abs(data->Ry1 - data->Ry0);
+	data->dy = abs(data->Ry1 - data->Ry0);
 	if (data->Ry0 < data->Ry1)
 		sy = 1;
 	else sy = -1;
-	error = data->dx + data->dy;
+	error = data->dx - data->dy;
 	while (1)
 	{
-//		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, point_height_colour(data));
-		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, WHITE_PIXEL);
+//		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset, data->Ry0 + data->offset, point_height_colour(data);)
+		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset, data->Ry0 + data->offset, RED_PIXEL);
+//		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, WHITE_PIXEL);
 		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;
 		e2 = 2 * error;
-		if (e2 >= data->dy)
+		if (e2 > -data->dy)//took >= away
 		{
 			if (data->Rx0 == data->Rx1)
 				break;
-			error = error + data->dy;
+			error = error - data->dy;
 			data->Rx0 = data->Rx0 + sx;
 		}
-		if (e2 <= data->dx)
+		if (e2 < data->dx)//took <= away
 		{
 			if (data->Ry0 == data->Ry1)
 				break;
@@ -102,17 +111,21 @@ int	point_height_colour(t_data *data)
 		if (h0 < h1)
 		{
 			if (data->y1 == data->y0)
-				data->DC = data->Rx0 - (data->x0 * data->dist + data->offset);
+				data->DC = data->Rx0 - data->x0 * data->dist;
+//				data->DC = data->Rx0 - (data->x0 * data->dist + data->offset);
 			else
-				data->DC = data->Ry0 - (data->y0 * data->dist + data->offset);
+				data->DC = data->Ry0 - data->y0 * data->dist;
+//				data->DC = data->Ry0 - (data->y0 * data->dist + data->offset);
 			h = (h1 * data->DC) / data->BC;
 		}
 		else
 		{
 			if (data->y1 == data->y0)
-				data->DC = (data->x1 * data->dist + data->offset) - data->Rx0;
+				data->DC = data->x1 * data->dist - data->Rx0;
+//				data->DC = (data->x1 * data->dist + data->offset) - data->Rx0;
 			else
-				data->DC = (data->y1 * data->dist + data->offset) - data->Ry0;
+				data->DC = data->y1 * data->dist - data->Ry0;
+//				data->DC = (data->y1 * data->dist + data->offset) - data->Ry0;
 			h = (h0 * data->DC) / data->BC;
 		}
 	}
@@ -125,10 +138,10 @@ float	calc_colour(t_data *data, float h)
 	int		colour;
 
 	if (h == 0)
-		colour = BLACK_PIXEL;
+		colour = WHITE_PIXEL;
 	else
 	{
-		colour_perc = (h - data->min_h) / (data->max_h - data->min_h);//0 30 100 0.3 - 30 65 100 - 30 50 230
+		colour_perc = (h - data->h_min) / (data->h_max - data->h_min);//0 30 100 0.3 - 30 65 100 - 30 50 230
 		colour = scale_rgb(colour_perc);
 	}
 	return (colour);

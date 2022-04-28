@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 15:55:59 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/28 21:32:06 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ typedef struct s_data
 	int		n_rows;
 	int		*rows_width;
 	int	projection;
-  int	max_h;
-  int	min_h;
+  int	y_extra;
+  int	x_extra;
+  int	h_max;
+  int	h_min;
   int	x0;
   int	y0;
   int	x1;
@@ -71,6 +73,8 @@ typedef struct s_data
   int	dx;
   int	dy;
 	int		offset;
+	int		x_offset;
+	int		y_offset;
   	int		dist;
 	int		colour;
 	int		i;
@@ -90,6 +94,7 @@ void	errors(char *s);
 
 //render_map.c
 void	transform_iso(t_data *data);
+void	transform_front(t_data *data);
 int	render_map(t_data *data);
 
 #endif

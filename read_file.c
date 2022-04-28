@@ -7,7 +7,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 15:53:45 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/28 21:04:06 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ static int	init_row(char *line, t_data *data)
 		data->map[data->i][j] = ft_atoi(temp[j]);
 		if (data->i == 0 && j == 0)
 		{
-			data->min_h = data->map[data->i][j];
-			data->max_h = data->map[data->i][j];
+			data->h_min = data->map[data->i][j];
+			data->h_max = data->map[data->i][j];
 		}
-		if (data->map[data->i][j] < data->min_h)
-			data->min_h = data->map[data->i][j];
-		if (data->map[data->i][j] > data->max_h)
-			data->max_h = data->map[data->i][j];
+		if (data->map[data->i][j] < data->h_min)
+			data->h_min = data->map[data->i][j];
+		if (data->map[data->i][j] > data->h_max)
+			data->h_max = data->map[data->i][j];
 		j++;
 	}
 	ft_memdelarray((void *)&temp);

@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/26 16:19:41 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/28 21:33:24 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ static int key_action(int keysym, t_data *data)
 		data->projection = FRONT;
 	if (keysym == 34)
 		data->projection = ISO;
+	if (keysym == 123)
+	{
+		data->x_extra = data->x_extra - 10;
+	}
+	if (keysym == 124)
+	{
+		data->x_extra = data->x_extra + 10;
+	}
+	if (keysym == 126)
+	{
+		data->y_extra = data->y_extra - 10;
+	}
+	if (keysym == 125)
+	{
+		data->y_extra = data->y_extra + 10;
+	}
+	if (keysym == 15)//R
+	{
+		data->x_extra = 0;
+		data->y_extra = 0;
+	}
 	else
 	{
 		ft_putnbr(keysym);
@@ -32,6 +53,18 @@ static int key_action(int keysym, t_data *data)
 	}
 	return (0);
 }
+
+/*static int mouse_hook(int button, int x, int y, t_data *data)
+{
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+	{
+		if (button == 1 && data)
+		{
+			printf("Mouse left click. x is %d and y i s%d\n", x, y);
+		}
+	}
+	return (0);
+	}*/
 
 int	main(int argc, char **argv)
 {
@@ -47,7 +80,10 @@ int	main(int argc, char **argv)
 	if (data.win == NULL)
 		errors("mlx_new_window() failed.\n");
 	mlx_loop_hook(data.mlx, &render_map, &data);
+//	mlx_hook(data.win, 4, 0, key_hook, &data);
 	mlx_key_hook(data.win, key_action, &data);
+//	mlx_hook(data.win, 4, 0, mouse_hook, &data);
+//	mlx_mouse_hook(data.win, mouse_hook, &data);
 
 	mlx_loop(data.mlx);
 
