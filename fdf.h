@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/28 21:32:06 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:14:49 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,36 +49,44 @@
 
 typedef struct s_data
 {
+// helper variables
+	int		colour;
+	int		i;
+// context
 	int		fd;
 	void	*mlx;
 	void	*win;
+  	int		dist;
+	int		offset;
+	int		offset_x;
+	int		offset_y;
+	int		x_extra;
+	int		y_extra;
+// map
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
-	int	projection;
-  int	y_extra;
-  int	x_extra;
-  int	h_max;
-  int	h_min;
-  int	x0;
-  int	y0;
-  int	x1;
-  int	y1;
-	int	Rx0;
-  int	Ry0;
-  int	Rx1;
-  int	Ry1;
-  int	BC;
-  int	DC;
-  int	dx;
-  int	dy;
-	int		offset;
-	int		x_offset;
-	int		y_offset;
-  	int		dist;
-	int		colour;
-	int		i;
+	int		h_max;
+	int		h_min;
+//view
+	int		projection;
+	int		x0;
+	int		y0;
+	int		x1;
+	int		y1;
+	int		Rx0;
+	int		Ry0;
+	int		Rx1;
+	int		Ry1;
+//bresenham
+	int		BC;
+	int		DC;
+	int		dx;
+	int		dy;
 }			t_data;
+
+//main.c
+void	initialize_data(t_data *data);
 
 //line.c
 void	draw_line(t_data *data);

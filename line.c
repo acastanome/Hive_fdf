@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/28 21:37:20 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:26:17 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,18 @@ int	point_height_colour(t_data *data);
 
 void	draw_line(t_data *data)
 {
-/*
-	data->Rx0 = (data->x0 * data->dist) + data->offset;
-	data->Ry0 = (data->y0 * data->dist) + data->offset;
-	data->Rx1 = (data->x1 * data->dist) + data->offset;
-	data->Ry1 = (data->y1 * data->dist) + data->offset;
-*/
-	data->Rx0 = data->x0 * data->dist;
+/*	data->Rx0 = data->x0 * data->dist;
 	data->Ry0 = data->y0 * data->dist;
 	data->Rx1 = data->x1 * data->dist;
-	data->Ry1 = data->y1 * data->dist;
-
+	data->Ry1 = data->y1 * data->dist;*/
 	if (data->projection == ISO)
 		transform_iso(data);
 	if (data->projection == FRONT)
 		transform_front(data);
-	if (data->y1 == data->y0)
+/*	if (data->y1 == data->y0)
 		data->BC = data->Rx1 - data->Rx0;
 	else
-		data->BC = data->Ry1 - data->Ry0;
+	data->BC = data->Ry1 - data->Ry0;*/
 	bresenham_line_algo(data);
 }
 
@@ -68,7 +61,7 @@ int	bresenham_line_algo(t_data *data)
 	while (1)
 	{
 //		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset, data->Ry0 + data->offset, point_height_colour(data);)
-		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset, data->Ry0 + data->offset, RED_PIXEL);
+		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
 //		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, WHITE_PIXEL);
 		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;

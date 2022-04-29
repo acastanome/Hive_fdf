@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/28 21:33:24 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:35:07 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,23 @@ static int key_action(int keysym, t_data *data)
 		data->projection = ISO;
 	if (keysym == 123)
 	{
-		data->x_extra = data->x_extra - 10;
+		data->offset_x = data->offset_x - 10;
 	}
 	if (keysym == 124)
 	{
-		data->x_extra = data->x_extra + 10;
+		data->offset_x = data->offset_x + 10;
 	}
 	if (keysym == 126)
 	{
-		data->y_extra = data->y_extra - 10;
+		data->offset_y = data->offset_y - 10;
 	}
 	if (keysym == 125)
 	{
-		data->y_extra = data->y_extra + 10;
+		data->offset_y = data->offset_y + 10;
 	}
 	if (keysym == 15)//R
 	{
-		data->x_extra = 0;
-		data->y_extra = 0;
+		initialize_data(data);
 	}
 	else
 	{
@@ -66,6 +65,16 @@ static int key_action(int keysym, t_data *data)
 	return (0);
 	}*/
 
+void	initialize_data(t_data *data)
+{
+	data->offset = 200;
+	data->dist = 50;
+	data->offset_x = 0;
+	data->offset_y = 0;
+//	data->offset_x = data->offset + data->offset_x;
+//	data->offset_y = data->offset + data->offset_y;
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -79,6 +88,7 @@ int	main(int argc, char **argv)
 	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Al's fdf");
 	if (data.win == NULL)
 		errors("mlx_new_window() failed.\n");
+	initialize_data(&data);
 	mlx_loop_hook(data.mlx, &render_map, &data);
 //	mlx_hook(data.win, 4, 0, key_hook, &data);
 	mlx_key_hook(data.win, key_action, &data);
