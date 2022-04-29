@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 15:35:07 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 18:43:03 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ static int key_action(int keysym, t_data *data)
 	return (0);
 }
 
-/*static int mouse_hook(int button, int x, int y, t_data *data)
+//static void mouse_hook(int button, int x, int y, t_data *data)//up 4, down 5
+static int mouse_hook(int button, int x, int y, t_data *data)//up 4, down 5
 {
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+	if (button == 4 && x && y)
+		data->h_extra = data->h_extra + 10;
+//		printf("Mouse left click. x is %d and y i s%d\n", x, y);
+	if (button == 5)
+		data->h_extra = data->h_extra - 10;
+/*	if (button == 1)
 	{
-		if (button == 1 && data)
-		{
-			printf("Mouse left click. x is %d and y i s%d\n", x, y);
-		}
-	}
+		data->mouse_x = x;
+		data->mouse_y = y;
+		}*/
 	return (0);
-	}*/
+	}
 
 void	initialize_data(t_data *data)
 {
@@ -71,6 +75,7 @@ void	initialize_data(t_data *data)
 	data->dist = 50;
 	data->offset_x = 0;
 	data->offset_y = 0;
+	data->h_extra = 0;
 //	data->offset_x = data->offset + data->offset_x;
 //	data->offset_y = data->offset + data->offset_y;
 }
@@ -92,7 +97,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(data.mlx, &render_map, &data);
 //	mlx_hook(data.win, 4, 0, key_hook, &data);
 	mlx_key_hook(data.win, key_action, &data);
-//	mlx_hook(data.win, 4, 0, mouse_hook, &data);
+	mlx_hook(data.win, 4, 0, mouse_hook, &data);
 //	mlx_mouse_hook(data.win, mouse_hook, &data);
 
 	mlx_loop(data.mlx);

@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 15:26:17 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:00:02 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	point_height_colour(t_data *data)
 	float	h0;
 	float	h1;
 
-	h0 = data->map[data->y0][data->x0];
-	h1 = data->map[data->y1][data->x1];
+	h0 = data->map[data->y0][data->x0];// + data->h_extra;
+	h1 = data->map[data->y1][data->x1];// + data->h_extra;
 	if (h0 == h1)
 		h = h0;
 	else

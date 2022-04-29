@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 15:33:42 by acastano         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:44:55 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static void	render_text(t_data *data)
 {
 	if (data->win != NULL)
     {
+		mlx_string_put(data->mlx, data->win, WIN_WIDTH - 350, 20, WHITE_PIXEL, "MOUSE INSTRUCTIONS");
+		mlx_string_put(data->mlx, data->win, WIN_WIDTH - 350, 40, WHITE_PIXEL, "Wheel up: Increase height");
+		mlx_string_put(data->mlx, data->win, WIN_WIDTH - 350, 60, WHITE_PIXEL, "Wheel down: Decrease height");
 		mlx_string_put(data->mlx, data->win, 50, 20, WHITE_PIXEL, "KEYBOARD INSTRUCTIONS");
 		mlx_string_put(data->mlx, data->win, 50, 40, WHITE_PIXEL, "Arrows Up, Down, Left and Right: Move view inside window");
 		mlx_string_put(data->mlx, data->win, 50, 60, WHITE_PIXEL, "F: Front view");
@@ -35,6 +38,17 @@ static void	draw_horizontal_line(t_data *data)
 	data->Rx1 = data->x1 * data->dist;
 	data->Ry1 = data->y1 * data->dist;
 
+	data->z0 = data->map[data->y0][data->x0];
+	if (data->z0 != 0)
+	{
+		data->z0 = (data->z0 * data->h_extra) * data->dist;//h_extra at start is 0 so flatline, float
+		if (data->z0 != 1)
+			printf("h extra = %d, z0 = %d\n", data->h_extra, data->z0);
+	}
+	data->z1 = data->map[data->y1][data->x1];
+	if (data->z1 != 0)
+		data->z1 = (data->z1 * data->h_extra) * data->dist;
+
 	data->BC = data->Rx1 - data->Rx0;
 	draw_line(data);
 }
@@ -47,6 +61,13 @@ static void	draw_vertical_line(t_data *data)
 	data->Ry0 = data->y0 * data->dist;
 	data->Rx1 = data->x1 * data->dist;
 	data->Ry1 = data->y1 * data->dist;
+
+	data->z0 = data->map[data->y0][data->x0];
+	if (data->z0 != 0)
+		data->z0 = (data->z0 * data->h_extra) * data->dist;
+	data->z1 = data->map[data->y1][data->x1];
+	if (data->z1 != 0)
+		data->z1 = (data->z1 * data->h_extra) * data->dist;
 
 	data->BC = data->Ry1 - data->Ry0;
 	draw_line(data);
@@ -84,9 +105,9 @@ void	transform_iso(t_data *data)
 	int	tempRy1;
 
 	tempRx0 = (data->Rx0 - data->Ry0) * COS_30;
-	tempRy0 = -data->map[data->y0][data->x0] + (data->Rx0 + data->Ry0) * SIN_30;
+	tempRy0 = -data->z0 + (data->Rx0 + data->Ry0) * SIN_30;
 	tempRx1 = (data->Rx1 - data->Ry1) * COS_30;
-	tempRy1 = -data->map[data->y1][data->x1] + (data->Rx1 + data->Ry1) * SIN_30;
+	tempRy1 = -data->z1 + (data->Rx1 + data->Ry1) * SIN_30;
 
 	data->Rx0 = tempRx0;
 	data->Ry0 = tempRy0;
@@ -102,9 +123,9 @@ void	transform_front(t_data *data)
 	int	tempRy1;
 
 	tempRx0 = data->Rx0;
-	tempRy0 = -(data->map[data->y0][data->x0]);
+	tempRy0 = -(data->z0);
 	tempRx1 = data->Rx1;
-	tempRy1 = -(data->map[data->y1][data->x1]);
+	tempRy1 = -(data->z1);
 
 //	printf("\th = %d.\t", data->map[data->y0][data->x0]);
 	data->Rx0 = tempRx0;
