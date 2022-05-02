@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 16:00:02 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:51:43 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,20 @@ float	calc_colour(t_data *data, float h);
 //static int	rgb_toi(float r, float g, float b);
 int	point_height_colour(t_data *data);
 
+/*
+ * draw_line() transforms the starting and ending points of the line to draw into
+ * the requested projection, and checks if said points are inside the window
+ * before calling bresenham_line_algo() to draw it
+ */
 void	draw_line(t_data *data)
 {
-/*	data->Rx0 = data->x0 * data->dist;
-	data->Ry0 = data->y0 * data->dist;
-	data->Rx1 = data->x1 * data->dist;
-	data->Ry1 = data->y1 * data->dist;*/
 	if (data->projection == ISO)
 		transform_iso(data);
 	if (data->projection == FRONT)
 		transform_front(data);
-/*	if (data->y1 == data->y0)
-		data->BC = data->Rx1 - data->Rx0;
-	else
-	data->BC = data->Ry1 - data->Ry0;*/
-	bresenham_line_algo(data);
+	if ((!(data->Rx0 <= 0 && data->Rx1 <= 0) || !(data->Rx0 >= WIN_WIDTH && data->Rx1 >= WIN_WIDTH))
+		&& (!(data->Ry0 <= 0 && data->Ry1 <= 0) || !(data->Ry0 >= WIN_HEIGHT && data->Ry1 >= WIN_HEIGHT)))
+		bresenham_line_algo(data);
 }
 
 /*
@@ -95,8 +94,8 @@ int	point_height_colour(t_data *data)
 	float	h0;
 	float	h1;
 
-	h0 = data->map[data->y0][data->x0];// + data->h_extra;
-	h1 = data->map[data->y1][data->x1];// + data->h_extra;
+	h0 = data->map[data->y0][data->x0];
+	h1 = data->map[data->y1][data->x1];
 	if (h0 == h1)
 		h = h0;
 	else

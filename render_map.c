@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 19:44:55 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:23:36 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void	draw_horizontal_line(t_data *data)
 	data->z0 = data->map[data->y0][data->x0];
 	if (data->z0 != 0)
 	{
-		data->z0 = (data->z0 * data->h_extra) * data->dist;//h_extra at start is 0 so flatline, float
-		if (data->z0 != 1)
-			printf("h extra = %d, z0 = %d\n", data->h_extra, data->z0);
+		data->z0 = (data->z0 * data->h_extra) * data->dist;
+//		if (data->z0 != 1)
+//			printf("h extra = %d, z0 = %d\n", data->h_extra, data->z0);
 	}
 	data->z1 = data->map[data->y1][data->x1];
 	if (data->z1 != 0)

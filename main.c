@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 18:43:03 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:55:03 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,19 @@ static int key_action(int keysym, t_data *data)
 	if (keysym == 34)
 		data->projection = ISO;
 	if (keysym == 123)
-	{
-		data->offset_x = data->offset_x - 10;
-	}
+		data->offset_x = data->offset_x - 1;
 	if (keysym == 124)
-	{
-		data->offset_x = data->offset_x + 10;
-	}
+		data->offset_x = data->offset_x + 1;
 	if (keysym == 126)
-	{
-		data->offset_y = data->offset_y - 10;
-	}
+		data->offset_y = data->offset_y - 1;
 	if (keysym == 125)
-	{
-		data->offset_y = data->offset_y + 10;
-	}
+		data->offset_y = data->offset_y + 1;
+	if ((keysym == 69 || keysym == 24) && data->dist < 5000)//+
+		data->dist = data->dist + 10;
+	if ((keysym == 78 || keysym == 27) && data->dist >= 10)//-
+		data->dist = data->dist - 10;
 	if (keysym == 15)//R
-	{
 		initialize_data(data);
-	}
 	else
 	{
 		ft_putnbr(keysym);
@@ -57,10 +51,10 @@ static int key_action(int keysym, t_data *data)
 static int mouse_hook(int button, int x, int y, t_data *data)//up 4, down 5
 {
 	if (button == 4 && x && y)
-		data->h_extra = data->h_extra + 10;
+		data->h_extra = data->h_extra + 0.1;
 //		printf("Mouse left click. x is %d and y i s%d\n", x, y);
 	if (button == 5)
-		data->h_extra = data->h_extra - 10;
+		data->h_extra = data->h_extra - 0.1;
 /*	if (button == 1)
 	{
 		data->mouse_x = x;
@@ -75,7 +69,7 @@ void	initialize_data(t_data *data)
 	data->dist = 50;
 	data->offset_x = 0;
 	data->offset_y = 0;
-	data->h_extra = 0;
+	data->h_extra = 1;
 //	data->offset_x = data->offset + data->offset_x;
 //	data->offset_y = data->offset + data->offset_y;
 }

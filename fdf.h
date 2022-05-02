@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/29 16:14:42 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:51:14 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ typedef struct s_data
 	int		offset_y;
 	int		x_extra;
 	int		y_extra;
-	int		h_extra;
+	float		h_extra;
 // map
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
-	int		h_max;
-	int		h_min;
+	float		h_max;
+	float		h_min;
 //view
 	int		projection;
 	int		x0;
