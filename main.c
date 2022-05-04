@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/02 15:55:03 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/04 13:41:46 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,21 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc != 2)
-		errors("usage: ./fdf <filename>\n");
+		exit_fdf("usage: ./fdf <filename>\n");
 	read_file(argv[1], &data);
 	data.mlx = mlx_init();
 	if (data.mlx == NULL)
-		errors("Error: mlx_init() failed.\n");
+		exit_fdf("Error: mlx_init() failed.\n");
 	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Al's fdf");
 	if (data.win == NULL)
-		errors("mlx_new_window() failed.\n");
+		exit_fdf("mlx_new_window() failed.\n");
 	initialize_data(&data);
 	mlx_loop_hook(data.mlx, &render_map, &data);
 //	mlx_hook(data.win, 4, 0, key_hook, &data);
 	mlx_key_hook(data.win, key_action, &data);
 	mlx_hook(data.win, 4, 0, mouse_hook, &data);
 //	mlx_mouse_hook(data.win, mouse_hook, &data);
-
+	mlx_hook(data.win, 17, 0, exit_fdf, &data);//ON_DESTROY X11
 	mlx_loop(data.mlx);
 
 /*test printing

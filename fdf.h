@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/02 14:51:14 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/04 13:26:25 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ int	bresenham_line_algo(t_data *data);
 int	read_file(char *file, t_data *data);
 
 //errors.c
-void	errors(char *s);
+//void	errors(char *s);
+//int	exit_fdf(void);
+int	exit_fdf(char *s);
 
 //render_map.c
 void	transform_iso(t_data *data);

@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/04/28 21:04:06 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/04 13:56:27 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +24,7 @@ int	read_file(char *file, t_data *data)
 
 	data->fd = open(file, O_RDONLY);
 	if (data->fd < 0)
-		errors("Error: Failed to open file.");
+		exit_fdf("Error: Failed to open file.");
 	ret = 1;
 	(data->n_rows) = 0;
 	while (ret == 1)
@@ -47,13 +46,13 @@ static int	init_map(char *file, t_data *data)
 
 	data->map = (int **)ft_memalloc(sizeof(int *) * (data->n_rows));
 	if (!(data->map))
-		errors("Error: Failed to allocate int **map.\n");
+		exit_fdf("Error: Failed to allocate int **map.\n");
 	data->rows_width = (int *)ft_memalloc(sizeof(int) * data->n_rows);
 	if (!(data->rows_width))
-		errors("Error: Failed to allocate int *rows_width.\n");
+		exit_fdf("Error: Failed to allocate int *rows_width.\n");
 	data->fd = open(file, O_RDONLY);
 	if (data->fd < 0)
-		errors("Error: Failed to open file.\n");
+		exit_fdf("Error: Failed to open file.\n");
 	ret = 1;
 	data->i = 0;
 	while (ret == 1)
@@ -76,7 +75,7 @@ static int	init_row(char *line, t_data *data)
 	data->rows_width[data->i] = ft_word_count(line, ' ');
 	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int) * ((data->rows_width)[data->i]));
 	if (!(data->map[data->i]))
-		errors("Error: Failed to allocate data->map[data->i].\n");
+		exit_fdf("Error: Failed to allocate data->map[data->i].\n");
 	temp = ft_strsplit(line, ' ');
 	j = 0;
 	while (j < data->rows_width[data->i])
