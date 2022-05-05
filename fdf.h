@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/04 13:26:25 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:36:41 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define TOP 1
 # define FRONT 2
 # define ISO 3
+# define BIMETRIC 4
 
 # define WHITE_PIXEL 0xFFFFFF
 # define BLACK_PIXEL 0x000000
@@ -44,8 +45,13 @@
 # define GREEN_PIXEL 0x00FF00
 # define BLUE_PIXEL 0x0000FF
 
+//isometric projection: angles between axis are the same
 # define SIN_30 0.5
 # define COS_30 0.8660254
+
+//bimetric projection: 2 angles between axis are the same, one is different
+//# define SIN_30 0.5
+# define COS_60 0.5
 
 typedef struct s_data
 {
@@ -92,7 +98,8 @@ typedef struct s_data
 void	initialize_data(t_data *data);
 
 //line.c
-void	draw_line(t_data *data);
+//void	draw_line(t_data *data);
+void	draw_line(t_data *data, char direction, int x1, int y1);
 int	bresenham_line_algo(t_data *data);
 //int	render(t_data *data);
 //int key_action(int keysym, t_data *data);
@@ -106,8 +113,9 @@ int	read_file(char *file, t_data *data);
 int	exit_fdf(char *s);
 
 //render_map.c
-void	transform_iso(t_data *data);
-void	transform_front(t_data *data);
+void	transform(t_data *data);
+//void	transform_iso(t_data *data);
+//void	transform_front(t_data *data);
 int	render_map(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/02 15:51:43 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:50:23 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,30 @@ int	point_height_colour(t_data *data);
  * the requested projection, and checks if said points are inside the window
  * before calling bresenham_line_algo() to draw it
  */
-void	draw_line(t_data *data)
+void	draw_line(t_data *data, char direction, int x1, int y1)
 {
-	if (data->projection == ISO)
-		transform_iso(data);
-	if (data->projection == FRONT)
-		transform_front(data);
+	data->x1 = x1;
+	data->y1 = y1;
+	data->Rx0 = data->x0 * data->dist;
+	data->Ry0 = data->y0 * data->dist;
+	data->Rx1 = data->x1 * data->dist;
+	data->Ry1 = data->y1 * data->dist;
+	data->z0 = data->map[data->y0][data->x0];
+	if (data->z0 != 0)
+		data->z0 = (data->z0 * data->h_extra) * data->dist;
+	data->z1 = data->map[data->y1][data->x1];
+	if (data->z1 != 0)
+		data->z1 = (data->z1 * data->h_extra) * data->dist;
+	if (direction == 'h')
+		data->BC = data->Rx1 - data->Rx0;
+	if (direction == 'v')
+		data->BC = data->Ry1 - data->Ry0;
+//	if (data->projection == ISO)
+//		transform_iso(data);
+//	if (data->projection == FRONT)
+//		transform_front(data);
+	if (data->projection == ISO || data->projection == FRONT || data->projection == BIMETRIC)
+		transform(data);
 	if ((!(data->Rx0 <= 0 && data->Rx1 <= 0) || !(data->Rx0 >= WIN_WIDTH && data->Rx1 >= WIN_WIDTH))
 		&& (!(data->Ry0 <= 0 && data->Ry1 <= 0) || !(data->Ry0 >= WIN_HEIGHT && data->Ry1 >= WIN_HEIGHT)))
 		bresenham_line_algo(data);

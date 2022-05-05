@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 14:41:53 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:21:46 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ static int key_action(int keysym, t_data *data)
 {
 	if (keysym == 53 || keysym == 65307)
 		exit (0);
-	if (keysym == 17)
+	if (keysym == 17)//T
 		data->projection = TOP;
-	if (keysym == 3)
+	if (keysym == 3)//F
 		data->projection = FRONT;
-	if (keysym == 34)
+	if (keysym == 34)//I
 		data->projection = ISO;
+	if (keysym == 11)//B
+		data->projection = BIMETRIC;
 	if (keysym == 123)
 		data->offset_x = data->offset_x - data->dist;
 	if (keysym == 124)
