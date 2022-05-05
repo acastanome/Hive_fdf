@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 16:36:04 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:48:32 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,17 @@ static void	render_text(t_data *data);
 //static void	draw_horizontal_line(t_data *data);
 //static void	draw_vertical_line(t_data *data);
 
-int	render_map(t_data *data)
+int	render(t_data *data)
 {
 	mlx_clear_window(data->mlx, data->win);
+	render_map(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	render_text(data);
+	return (0);
+}
+
+int	render_map(t_data *data)
+{
 	if (data->win != NULL)
     {
 		data->y0 = 0;
@@ -39,7 +47,7 @@ int	render_map(t_data *data)
 			data->y0++;
 		}
 	}
-	render_text(data);
+//	render_text(data);
 	return (0);
 }
 
@@ -171,6 +179,7 @@ static void	render_text(t_data *data)
 		mlx_string_put(data->mlx, data->win, 50, 60, WHITE_PIXEL, "F: Front view");
 		mlx_string_put(data->mlx, data->win, 50, 80, WHITE_PIXEL, "T: Top view");
 		mlx_string_put(data->mlx, data->win, 50, 100, WHITE_PIXEL, "I: Isometric view");
-		mlx_string_put(data->mlx, data->win, 50, 120, WHITE_PIXEL, "Esc: Exit");
+		mlx_string_put(data->mlx, data->win, 50, 120, WHITE_PIXEL, "B: Bimetric view");
+		mlx_string_put(data->mlx, data->win, 50, 140, WHITE_PIXEL, "Esc: Exit");
     }
 }

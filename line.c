@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 16:50:23 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:49:52 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ float	calc_colour(t_data *data, float h);
 //int	calculate_colour(float colour_percent);
 //static int	rgb_toi(float r, float g, float b);
 int	point_height_colour(t_data *data);
+static int	img_pixel_put(t_data *data, int Rx, int Ry, int colour);
 
 /*
  * draw_line() transforms the starting and ending points of the line to draw into
@@ -77,9 +78,8 @@ int	bresenham_line_algo(t_data *data)
 	error = data->dx - data->dy;
 	while (1)
 	{
-//		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset, data->Ry0 + data->offset, point_height_colour(data);)
-		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
-//		mlx_pixel_put(data->mlx, data->win, data->Rx0, data->Ry0, WHITE_PIXEL);
+//		mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
+		img_pixel_put(data, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
 		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;
 		e2 = 2 * error;
@@ -97,6 +97,24 @@ int	bresenham_line_algo(t_data *data)
 			error = error + data->dx;
 			data->Ry0 = data->Ry0 + sy;
 		}
+	}
+	return (0);
+}
+
+static int	img_pixel_put(t_data *data, int Rx, int Ry, int colour)
+{
+	char	*image;
+
+	if (data->px_bits != 32)
+		mlx_get_color_value(data->mlx, colour);
+//	mlx_pixel_put(data->mlx, data->win, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
+	if ((Rx >= 0 && Rx < WIN_WIDTH) && (Ry >= 0 && Ry < WIN_HEIGHT))
+	{
+		image = data->img_addr + (Rx * (data->px_bits / 8)) + (Ry * data->line_bytes);
+		//data->img_addr;//IMG_ADR
+		if (image == NULL)
+			exit_fdf("img_pixel_put() failed to allocate image pixel.\n");
+		*(unsigned int *)image = colour;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 16:36:41 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:36:19 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ typedef struct s_data
 	int		fd;
 	void	*mlx;
 	void	*win;
+	void	*img;
+	char	*img_addr;
+  	int		px_bits;
+  	int		line_bytes;
+	int		endian;
   	int		dist;
 	int		offset;
 	int		offset_x;
@@ -73,8 +78,8 @@ typedef struct s_data
 	int		**map;
 	int		n_rows;
 	int		*rows_width;
-	float		h_max;
-	float		h_min;
+	float	h_max;
+	float	h_min;
 //view
 	int		projection;
 	int		x0;
@@ -116,6 +121,7 @@ int	exit_fdf(char *s);
 void	transform(t_data *data);
 //void	transform_iso(t_data *data);
 //void	transform_front(t_data *data);
+int	render(t_data *data);
 int	render_map(t_data *data);
 
 #endif
