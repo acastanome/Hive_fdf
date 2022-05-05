@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 19:48:32 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:57:13 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,16 @@ static void	render_text(t_data *data);
 int	render(t_data *data)
 {
 	mlx_clear_window(data->mlx, data->win);
+	data->img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (data->img == NULL)
+		exit_fdf("mlx_new_image() failed.\n");
+	data->img_addr = mlx_get_data_addr(data->img, &data->px_bits, &data->line_bytes, &data->endian);
+	if (data->img_addr == NULL)
+		exit_fdf("mlx_get_data_addr() failed.\n");	
 	render_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	render_text(data);
+	mlx_destroy_image(data->mlx, data->img);
 	return (0);
 }
 

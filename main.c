@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 19:46:56 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:56:20 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,6 @@ int	main(int argc, char **argv)
 	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Al's fdf");
 	if (data.win == NULL)
 		exit_fdf("mlx_new_window() failed.\n");
-	data.img = mlx_new_image(data.mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (data.img == NULL)
-		exit_fdf("mlx_new_image() failed.\n");
-	data.img_addr = mlx_get_data_addr(data.img, &data.px_bits, &data.line_bytes, &data.endian);
-	if (data.win == NULL)
-		exit_fdf("mlx_get_data_addr() failed.\n");
 	initialize_data(&data);
 	render(&data);
 //	mlx_loop_hook(data.mlx, &render, &data);
