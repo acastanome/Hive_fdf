@@ -6,16 +6,14 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/04 13:56:27 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:25:44 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <fcntl.h>//open
-#include <stdio.h>//printf
 
-static int	init_row(char *line, t_data *data);
-static int	init_map(char *file, t_data *data);
+static void	init_row(char *line, t_data *data);
+static void	init_map(char *file, t_data *data);
 
 int	read_file(char *file, t_data *data)
 {
@@ -39,7 +37,7 @@ int	read_file(char *file, t_data *data)
 	return (0);
 }
 
-static int	init_map(char *file, t_data *data)
+static void	init_map(char *file, t_data *data)
 {
 	int		ret;
 	char	*line;
@@ -64,16 +62,16 @@ static int	init_map(char *file, t_data *data)
 		ft_memdel((void *)&line);
 	}
 	close(data->fd);
-	return (0);
 }
 
-static int	init_row(char *line, t_data *data)
+static void	init_row(char *line, t_data *data)
 {
 	char	**temp;
 	int		j;
 
 	data->rows_width[data->i] = ft_word_count(line, ' ');
-	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int) * ((data->rows_width)[data->i]));
+	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int)
+			* ((data->rows_width)[data->i]));
 	if (!(data->map[data->i]))
 		exit_fdf("Error: Failed to allocate data->map[data->i].\n");
 	temp = ft_strsplit(line, ' ');
@@ -93,5 +91,4 @@ static int	init_row(char *line, t_data *data)
 		j++;
 	}
 	ft_memdelarray((void *)&temp);
-	return (0);
 }

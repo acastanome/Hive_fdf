@@ -6,16 +6,14 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/05 19:57:13 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:31:33 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <math.h>
 
 static void	render_text(t_data *data);
-//static void	draw_horizontal_line(t_data *data);
-//static void	draw_vertical_line(t_data *data);
+static void	render_map(t_data *data);
 
 int	render(t_data *data)
 {
@@ -33,71 +31,38 @@ int	render(t_data *data)
 	return (0);
 }
 
-int	render_map(t_data *data)
+static void	render_map(t_data *data)
 {
-	if (data->win != NULL)
-    {
-		data->y0 = 0;
-		while (data->y0 < data->n_rows)
+	if (data->win == NULL)
+		return ;
+	data->y0 = 0;
+	while (data->y0 < data->n_rows)
+	{
+		data->x0 = 0;
+		while (data->x0 < data->rows_width[data->y0])
 		{
-			data->x0 = 0;
-			while (data->x0 < data->rows_width[data->y0])
+			if ((data->x0 + 1) < data->rows_width[data->y0])
 			{
-				if ((data->x0 + 1) < data->rows_width[data->y0])
-					draw_line(data, 'h', (data->x0 + 1), data->y0);
-//					draw_horizontal_line(data);
-				if (((data->y0 + 1) < data->n_rows) && (data->x0 < data->rows_width[data->y0 + 1]))
-					draw_line(data, 'v', data->x0, (data->y0 + 1));
-//					draw_vertical_line(data);
-				data->x0++;
+				data->x1 = data->x0 + 1;
+				data->y1 = data->y0;
+				draw_line(data, 'h');
 			}
-			data->y0++;
+			if (((data->y0 + 1) < data->n_rows) && (data->x0 < data->rows_width[data->y0 + 1]))
+			{
+				data->x1 = data->x0;
+				data->y1 = data->y0 + 1;
+				draw_line(data, 'v');
+			}
+			data->x0++;
 		}
+		data->y0++;
 	}
-//	render_text(data);
-	return (0);
 }
 
-/*static void	draw_horizontal_line(t_data *data)
-{
-	data->x1 = data->x0 + 1;
-	data->y1 = data->y0;
-	data->Rx0 = data->x0 * data->dist;
-	data->Ry0 = data->y0 * data->dist;
-	data->Rx1 = data->x1 * data->dist;
-	data->Ry1 = data->y1 * data->dist;
-
-	data->z0 = data->map[data->y0][data->x0];
-	if (data->z0 != 0)
-		data->z0 = (data->z0 * data->h_extra) * data->dist;
-	data->z1 = data->map[data->y1][data->x1];
-	if (data->z1 != 0)
-		data->z1 = (data->z1 * data->h_extra) * data->dist;
-
-	data->BC = data->Rx1 - data->Rx0;
-	draw_line(data);
-}
-
-static void	draw_vertical_line(t_data *data)
-{
-	data->x1 = data->x0;
-	data->y1 = data->y0 + 1;
-	data->Rx0 = data->x0 * data->dist;
-	data->Ry0 = data->y0 * data->dist;
-	data->Rx1 = data->x1 * data->dist;
-	data->Ry1 = data->y1 * data->dist;
-
-	data->z0 = data->map[data->y0][data->x0];
-	if (data->z0 != 0)
-		data->z0 = (data->z0 * data->h_extra) * data->dist;
-	data->z1 = data->map[data->y1][data->x1];
-	if (data->z1 != 0)
-		data->z1 = (data->z1 * data->h_extra) * data->dist;
-
-	data->BC = data->Ry1 - data->Ry0;
-	draw_line(data);
-	}*/
-
+/*
+ * transform() modifies the starting and ending points of the line to draw from
+ * TOP to the requested projection
+ */
 void	transform(t_data *data)
 {
 	int	tempRx0;
@@ -105,21 +70,21 @@ void	transform(t_data *data)
 	int	tempRx1;
 	int	tempRy1;
 
-	if (data->projection == ISO)
+	if (data->proj == ISO)
 	{
 		tempRx0 = (data->Rx0 - data->Ry0) * COS_30;
 		tempRy0 = -data->z0 + (data->Rx0 + data->Ry0) * SIN_30;
 		tempRx1 = (data->Rx1 - data->Ry1) * COS_30;
 		tempRy1 = -data->z1 + (data->Rx1 + data->Ry1) * SIN_30;
 	}
-	else if (data->projection == FRONT)
+	else if (data->proj == FRONT)
 	{
 		tempRx0 = data->Rx0;
 		tempRy0 = -(data->z0);
 		tempRx1 = data->Rx1;
 		tempRy1 = -(data->z1);
 	}
-	else// if (data->projection == BIMETRIC)
+	else// if (data->proj == BIMETRIC)
 	{
 		tempRx0 = (data->Rx0 - data->Ry0) * COS_60;
 		tempRy0 = -data->z0 + (data->Rx0 + data->Ry0) * SIN_30;
@@ -131,48 +96,6 @@ void	transform(t_data *data)
 	data->Rx1 = tempRx1;
 	data->Ry1 = tempRy1;
 }
-
-/*void	transform_iso(t_data *data)
-{
-	int	tempRx0;
-	int	tempRy0;
-	int	tempRx1;
-	int	tempRy1;
-
-	tempRx0 = (data->Rx0 - data->Ry0) * COS_30;
-	tempRy0 = -data->z0 + (data->Rx0 + data->Ry0) * SIN_30;
-	tempRx1 = (data->Rx1 - data->Ry1) * COS_30;
-	tempRy1 = -data->z1 + (data->Rx1 + data->Ry1) * SIN_30;
-
-	data->Rx0 = tempRx0;
-	data->Ry0 = tempRy0;
-	data->Rx1 = tempRx1;
-	data->Ry1 = tempRy1;
-}
-
-void	transform_front(t_data *data)
-{
-	int	tempRx0;
-	int	tempRy0;
-	int	tempRx1;
-	int	tempRy1;
-
-	tempRx0 = data->Rx0;
-	tempRy0 = -(data->z0);
-	tempRx1 = data->Rx1;
-	tempRy1 = -(data->z1);
-
-	data->Rx0 = tempRx0;
-	data->Ry0 = tempRy0;
-	data->Rx1 = tempRx1;
-	data->Ry1 = tempRy1;
-	}*/
-
-/*
- * 30 degrees = 0.523598776 rad
- * ptr->x = (x - y) * cos(30)
- * ptr->y = -z + (x + y) * sin(30)
- */
 
 static void	render_text(t_data *data)
 {
