@@ -6,19 +6,23 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/09 18:30:23 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:01:20 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	draw_line(t_data *data, char direction);
+static void	bresenham_line_algo_setup(t_data *data);
 static void	bresenham_line_algo(t_data *data);
+void	transform(t_data *data);
+static int	line_through_win(t_data *data);
 static void	img_pixel_put(t_data *data, int Rx, int Ry, int colour);
 
 /*
  * draw_line() calculates the starting and ending points of the line to draw,
- * calling transform() if the requested projection isn't parallel TOP.
- * Then checks if said points are inside the window before calling
+ * calling transform() if the requested projection isn't (parallel) TOP.
+ * Then checks if the line goes through/ is inside the window before calling
  * bresenham_line_algo() to draw it
  */
 void	draw_line(t_data *data, char direction)
@@ -28,24 +32,86 @@ void	draw_line(t_data *data, char direction)
 	data->Rx1 = data->x1 * data->dist;
 	data->Ry1 = data->y1 * data->dist;
 	data->z0 = data->map[data->y0][data->x0];
-	if (data->z0 != 0)
+	if ((data->z0 != 0) && direction)//TO DO:useless dir
 		data->z0 = (data->z0 * data->h_extra) * data->dist;
 	data->z1 = data->map[data->y1][data->x1];
 	if (data->z1 != 0)
 		data->z1 = (data->z1 * data->h_extra) * data->dist;
-	if (direction == 'h')
+/*	if (direction == 'h')
 		data->BC = data->Rx1 - data->Rx0;
 	else
-		data->BC = data->Ry1 - data->Ry0;
+		data->BC = data->Ry1 - data->Ry0;*/
 	if (data->proj == ISO || data->proj == FRONT || data->proj == BIMETRIC)
-		transform(data);//xo yo in screen OR x1y1 in screen
-/*	if (((data->Rx0 > 0 && data->Rx0 < WIN_WIDTH) && (data->Ry0 > 0 && data->Ry0 < WIN_HEIGHT)) || ((data->Rx1 > 0 && data->Rx1 < WIN_WIDTH) && (data->Ry1 > 0 && data->Ry1 < WIN_HEIGHT)))
-		bresenham_line_algo(data);*/
-	if ((!(data->Rx0 <= 0 && data->Rx1 <= 0) || !(data->Rx0 >= WIN_WIDTH && data->Rx1 >= WIN_WIDTH))//		!x0 x1 out left, or !x0 x1 out right AND
-		&& (!(data->Ry0 <= 0 && data->Ry1 <= 0) || !(data->Ry0 >= WIN_HEIGHT && data->Ry1 >= WIN_HEIGHT)))//	!y0 y1 out top, or !y0 y1 out bottom
-		bresenham_line_algo(data);
+		transform(data);
+	if (line_through_win(data) == 1)
+		bresenham_line_algo_setup(data);
 }
 
+/*
+ * transform() modifies the starting and ending points of the line to draw from
+ * TOP to the requested projection: Front, Iso, Bimetric
+ */
+void	transform(t_data *data)
+{
+	if (data->proj == FRONT)
+	{
+		data->tempRx0 = data->Rx0;
+		data->tempRy0 = -(data->z0);
+		data->tempRx1 = data->Rx1;
+		data->tempRy1 = -(data->z1);
+	}
+	else
+	{
+		data->tempRx0 = (data->Rx0 - data->Ry0) * COS_30;
+		data->tempRy0 = -data->z0 + (data->Rx0 + data->Ry0) * SIN_30;
+		data->tempRx1 = (data->Rx1 - data->Ry1) * COS_30;
+		data->tempRy1 = -data->z1 + (data->Rx1 + data->Ry1) * SIN_30;
+		if (data->proj == BIMETRIC)
+		{
+			data->tempRx0 = (data->Rx0 - data->Ry0) * COS_60;
+			data->tempRx1 = (data->Rx1 - data->Ry1) * COS_60;
+		}
+	}
+	data->Rx0 = data->tempRx0;
+	data->Ry0 = data->tempRy0;
+	data->Rx1 = data->tempRx1;
+	data->Ry1 = data->tempRy1;
+}
+
+int	line_through_win(t_data *data)
+{
+	data->Rx0 = data->Rx0 + data->offset_x + data->offset;
+	data->Ry0 = data->Ry0 + data->offset_y + data->offset;
+	data->Rx1 = data->Rx1 + data->offset_x + data->offset;
+	data->Ry1 = data->Ry1 + data->offset_y + data->offset;
+
+	if (((data->Rx0 <= 0) && (data->Rx1 <= 0))
+		|| ((data->Rx0 >= WIN_WIDTH) && (data->Rx1 >= WIN_WIDTH))
+		|| ((data->Ry0 <= 0) && (data->Ry1 <= 0))
+		|| ((data->Ry0 >= WIN_HEIGHT) && (data->Ry1 >= WIN_HEIGHT)))
+		return (0);
+	return (1);
+}
+
+/*
+ * bresenham_line_algo_setup() calculates the values the bresenham line algo
+ * needs to before calling bresenham_line_algo() to calculate the line's pixels
+ */
+static void	bresenham_line_algo_setup(t_data *data)
+{
+	data->dx = abs(data->Rx1 - data->Rx0);
+	if (data->Rx0 < data->Rx1)
+		data->sx = 1;
+	else data->sx = -1;
+	data->dy = abs(data->Ry1 - data->Ry0);
+	if (data->Ry0 < data->Ry1)
+		data->sy = 1;
+	else data->sy = -1;
+	data->error = data->dx - data->dy;
+	bresenham_line_algo(data);
+}
+
+/* ************************************************************************** */
 /*
  * bresenham_line_algo() calculates the pixels that need to be rendered to draw
  * a line from (x0, y0) to (x1, y1), on the window (data->mlx_win). Then calls
@@ -54,79 +120,44 @@ void	draw_line(t_data *data, char direction)
  */
 static void	bresenham_line_algo(t_data *data)
 {
-	int	sx;
-	int	sy;
-	int	error;
-	int	e2;
-
-	data->dx = abs(data->Rx1 - data->Rx0);
-	if (data->Rx0 < data->Rx1)
-		sx = 1;
-	else sx = -1;
-	data->dy = abs(data->Ry1 - data->Ry0);
-	if (data->Ry0 < data->Ry1)
-		sy = 1;
-	else sy = -1;
-	error = data->dx - data->dy;
 	while (1)
 	{
-//		if (((data->Rx0 + data->offset + data->offset_x) >= 0 && (data->Rx0 + data->offset + data->offset_x) < WIN_WIDTH) && ((data->Ry0 + data->offset + data->offset_y) >= 0 && (data->Ry0 + data->offset + data->offset_y) < WIN_HEIGHT))
-			img_pixel_put(data, data->Rx0 + data->offset + data->offset_x, data->Ry0 + data->offset + data->offset_y, RED_PIXEL);
+		if ((data->Rx0 >= 0 && data->Rx0 < WIN_WIDTH)
+			&& (data->Ry0 >= 0 && data->Ry0 < WIN_HEIGHT))
+			img_pixel_put(data, data->Rx0, data->Ry0, RED_PIXEL);
 		if (data->Rx0 == data->Rx1 && data->Ry0 == data->Ry1)
 			break;
-		e2 = 2 * error;
-		if (e2 > -data->dy)//took >= away
+		data->e2 = 2 * data->error;
+		if (data->e2 > -data->dy)//took >= away
 		{
 			if (data->Rx0 == data->Rx1)
 				break;
-			error = error - data->dy;
-			data->Rx0 = data->Rx0 + sx;
+			data->error = data->error - data->dy;
+			data->Rx0 = data->Rx0 + data->sx;
 		}
-		if (e2 < data->dx)//took <= away
+		if (data->e2 < data->dx)//took <= away
 		{
 			if (data->Ry0 == data->Ry1)
 				break;
-			error = error + data->dx;
-			data->Ry0 = data->Ry0 + sy;
+			data->error = data->error + data->dx;
+			data->Ry0 = data->Ry0 + data->sy;
 		}
 	}
 }
 
+/*
+ * img_pixel_put() adds the pixel (Rx, Ry), in the specified colour, to the
+ * image saved in data.
+ * Note: It is up to the user to check that the pixel fits in the image.
+ */
 static void	img_pixel_put(t_data *data, int Rx, int Ry, int colour)
 {
 	char	*image;
 
 	if (data->px_bits != 32)
 		mlx_get_color_value(data->mlx, colour);
-	if ((Rx >= 0 && Rx < WIN_WIDTH) && (Ry >= 0 && Ry < WIN_HEIGHT))
-	{
-		image = data->img_addr + (Rx * (data->px_bits / 8)) + (Ry * data->line_bytes);
-		if (image == NULL)
-			exit_fdf("img_pixel_put() failed to allocate image pixel.\n");
-		*(unsigned int *)image = colour;
-	}
+	image = data->img_addr + (Rx * (data->px_bits / 8)) + (Ry * data->line_bytes);
+	if (image == NULL)
+		exit_fdf("img_pixel_put() failed to allocate image pixel.\n");
+	*(unsigned int *)image = colour;
 }
-
-/*
-Works for octant 0, that is lines with slope between 0 and 1.
-int	bresenham_line_algo(int x0, int y0, int x1, int y1, t_data *data)
-{
-  int	dx = x1 - x0;
-  int	dy = y1 - y0;
-  int	D = 2 * dy - dx;
-  int	y = y0;
-
-  while (x0 <= x1)
-    {
-      mlx_pixel_put(data->mlx, data->win, x0, y, GREEN_PIXEL);
-      if (D >= 0)
-	{
-	  y = y + 1;
-	  D = D + 2 * dy - 2 * dx;
-	}
-      else (D = D + 2 * dy);
-      x0++;
-    }
-  return (0);
-}
- */

@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/09 16:30:59 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:01:58 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 
 /*	RESOLUTION		*/
 # define MLX_ERROR 1
-# define WIN_WIDTH 1500
-# define WIN_HEIGHT 1000
+# define WIN_WIDTH 2200
+# define WIN_HEIGHT 1100
 
 /*	PROJECTIONS		*/
 /* Isometric: angles between axis are the same
@@ -79,6 +79,10 @@ typedef struct s_data
 // helper variables
 	int		colour;
 	int		i;
+	int		tempRx0;
+	int		tempRy0;
+	int		tempRx1;
+	int		tempRy1;
 // context
 	int		fd;
 	void	*mlx;
@@ -98,26 +102,31 @@ typedef struct s_data
 // map
 	int		**map;
 	int		n_rows;
+	int		rows_width_max;
 	int		*rows_width;
 	float	h_max;
 	float	h_min;
-//view
-	int		proj;
 	int		x0;
 	int		y0;
 	int		z0;
 	int		x1;
 	int		y1;
 	int		z1;
+//view
+	int		proj;
 	int		Rx0;
 	int		Ry0;
 	int		Rx1;
 	int		Ry1;
 //bresenham
-	int		BC;
-	int		DC;
+//	int		BC;
+//	int		DC;
 	int		dx;
+	int		sx;
 	int		dy;
+	int		sy;
+	int		error;
+	int		e2;
 }			t_data;
 
 /*	main.c			*/
@@ -128,7 +137,6 @@ void	initialize_data(t_data *data);
 int	read_file(char *file, t_data *data);
 
 /*	render_map.c	*/
-void	transform(t_data *data);
 //void	transform_iso(t_data *data);
 //void	transform_front(t_data *data);
 int	render(t_data *data);
@@ -136,6 +144,7 @@ int	render(t_data *data);
 
 /*	line.c			*/
 void	draw_line(t_data *data, char direction);//, int x1, int y1);
+void	transform(t_data *data);
 //static void	bresenham_line_algo(t_data *data);
 //static int	img_pixel_put(t_data *data, int Rx, int Ry, int colour);
 

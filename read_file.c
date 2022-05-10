@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/09 15:25:44 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:28:17 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	read_file(char *file, t_data *data)
 		ft_memdel((void *)&line);
 	}
 	close(data->fd);
+	data->rows_width_max = 0;
 	init_map(file, data);
 	return (0);
 }
@@ -70,6 +71,8 @@ static void	init_row(char *line, t_data *data)
 	int		j;
 
 	data->rows_width[data->i] = ft_word_count(line, ' ');
+	if (data->rows_width[data->i] > data->rows_width_max)
+		data->rows_width_max = data->rows_width[data->i];
 	(data->map)[data->i] = (int *)ft_memalloc(sizeof(int)
 			* ((data->rows_width)[data->i]));
 	if (!(data->map[data->i]))

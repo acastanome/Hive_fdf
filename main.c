@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/09 18:32:21 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:24:07 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,18 @@ static int mouse_hook(int button, int x, int y, t_data *data)
 		data->h_extra = data->h_extra + 0.1;
 		render(data);
 	}
-//		printf("Mouse left click. x is %d and y i s%d\n", x, y);
 	if (button == 5)
 	{
 		data->h_extra = data->h_extra - 0.1;
 		render(data);
 	}
-/*	if (button == 1)
-	{
-		data->mouse_x = x;
-		data->mouse_y = y;
-		}*/
 	return (0);
 }
 
 void	initialize_data(t_data *data)
 {
-	data->offset = 200;
-	data->dist = 50;
+	data->dist = WIN_WIDTH / data->rows_width_max;
+	data->offset = 	WIN_WIDTH - (data->dist * data->rows_width_max);
 	data->offset_x = 0;
 	data->offset_y = 0;
 	data->h_extra = 1;
