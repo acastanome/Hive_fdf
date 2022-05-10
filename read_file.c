@@ -6,14 +6,14 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/09 20:28:17 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 20:16:09 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	init_row(char *line, t_data *data);
 static void	init_map(char *file, t_data *data);
+static void	init_row(char *line, t_data *data);
 
 int	read_file(char *file, t_data *data)
 {
@@ -79,14 +79,11 @@ static void	init_row(char *line, t_data *data)
 		exit_fdf("Error: Failed to allocate data->map[data->i].\n");
 	temp = ft_strsplit(line, ' ');
 	j = 0;
+	data->h_min = data->map[0][0];
+	data->h_max = data->map[0][0];
 	while (j < data->rows_width[data->i])
 	{
 		data->map[data->i][j] = ft_atoi(temp[j]);
-		if (data->i == 0 && j == 0)
-		{
-			data->h_min = data->map[data->i][j];
-			data->h_max = data->map[data->i][j];
-		}
 		if (data->map[data->i][j] < data->h_min)
 			data->h_min = data->map[data->i][j];
 		if (data->map[data->i][j] > data->h_max)

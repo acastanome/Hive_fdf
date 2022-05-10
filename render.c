@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_map.c                                       :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 12:02:17 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 20:30:34 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	render_text(t_data *data);
 static void	render_map(t_data *data);
+static void	render_text(t_data *data);
 
 int	render(t_data *data)
 {
@@ -24,7 +24,7 @@ int	render(t_data *data)
 	data->img_addr = mlx_get_data_addr(data->img, &data->px_bits,
 			&data->line_bytes, &data->endian);
 	if (data->img_addr == NULL)
-		exit_fdf("mlx_get_data_addr() failed.\n");	
+		exit_fdf("mlx_get_data_addr() failed.\n");
 	render_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	render_text(data);
@@ -64,18 +64,43 @@ static void	render_map(t_data *data)
 static void	render_text(t_data *data)
 {
 	if (data->win != NULL)
-    {
-		mlx_string_put(data->mlx, data->win, 125, 50, WHITE_PIXEL, "INSTRUCTIONS");
-		mlx_string_put(data->mlx, data->win, 25, 90, WHITE_PIXEL, "Mouse wheel: Modify height");
-		mlx_string_put(data->mlx, data->win, 25, 130, WHITE_PIXEL, "Keyboard");
-		mlx_string_put(data->mlx, data->win, 50, 160, WHITE_PIXEL, "Arrows: Position inside window");
-		mlx_string_put(data->mlx, data->win, 50, 180, WHITE_PIXEL, "F: Front view");
-		mlx_string_put(data->mlx, data->win, 50, 200, WHITE_PIXEL, "T: Top view");
-		mlx_string_put(data->mlx, data->win, 50, 220, WHITE_PIXEL, "I: Isometric view");
-		mlx_string_put(data->mlx, data->win, 50, 240, WHITE_PIXEL, "B: Bimetric view");
-		mlx_string_put(data->mlx, data->win, 50, 260, WHITE_PIXEL, "R: Reset view");
-		mlx_string_put(data->mlx, data->win, 50, 290, WHITE_PIXEL, "Esc: Exit");
-		mlx_string_put(data->mlx, data->win, 25, WIN_HEIGHT - 50, WHITE_PIXEL, "Bresenham line algorithm");
-    }
+	{
+		mlx_string_put(data->mlx, data->win, 125, 50, WHITE, "INSTRUCTIONS");
+		mlx_string_put(data->mlx, data->win, 25, 90, WHITE, "Mouse");
+		mlx_string_put(data->mlx, data->win, 50, 115, WHITE,
+			"Wheel: Modify height");
+		mlx_string_put(data->mlx, data->win, 25, 155, WHITE, "Keyboard");
+		mlx_string_put(data->mlx, data->win, 50, 180, WHITE,
+			"Arrows: Position inside window");
+		mlx_string_put(data->mlx, data->win, 50, 200, WHITE,
+			"+ - : Change zoom");
+		mlx_string_put(data->mlx, data->win, 50, 220, WHITE, "R: Reset view");
+		mlx_string_put(data->mlx, data->win, 50, 250, WHITE, "Perspectives:");
+		mlx_string_put(data->mlx, data->win, 75, 270, WHITE, "F: Front");
+		mlx_string_put(data->mlx, data->win, 75, 290, WHITE, "T: Top");
+		mlx_string_put(data->mlx, data->win, 75, 310, WHITE, "I: Isometric");
+		mlx_string_put(data->mlx, data->win, 75, 330, WHITE, "B: Bimetric");
+		mlx_string_put(data->mlx, data->win, 50, 360, WHITE, "Esc: Exit");
+		mlx_string_put(data->mlx, data->win, 25, WIN_HEIGHT - 50, WHITE,
+			"Bresenham line algorithm");
+		mlx_string_put(data->mlx, data->win, 350, 300, WHITE, "x");
+	}
 }
-/* ************************************************************************** */
+
+/*
+ * img_pixel_put() adds the pixel (rx, ry), in the specified colour, to the
+ * image saved in data.
+ * Note: It is up to the user to check that the pixel fits in the image.
+ */
+void	img_pixel_put(t_data *data, int rx, int ry, int colour)
+{
+	char	*image;
+
+	if (data->px_bits != 32)
+		mlx_get_color_value(data->mlx, colour);
+	image = data->img_addr + (rx * (data->px_bits / 8))
+		+ (ry * data->line_bytes);
+	if (image == NULL)
+		exit_fdf("img_pixel_put() failed to allocate image pixel.\n");
+	*(unsigned int *)image = colour;
+}

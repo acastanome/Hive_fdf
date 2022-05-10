@@ -6,32 +6,21 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 12:01:58 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/10 20:49:30 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-/*
-#include <stdlib.h>
-#include <stdio.h>
+# include "libft/libft.h"
+# include "mlx.h"
 
-#include <X11/X.h>
-#include <X11/keysym.h>
-#include "mlx.h"
-*/
-
-#include "libft/libft.h"
-#include "mlx.h"
-//#include <keys.h>
-//#include <X11/keysym.h>//keysym XK_Escape
-
-#include <math.h>
-#include <fcntl.h>//open
-#include <unistd.h>//write
-#include <stdlib.h>//exit
-#include <stdio.h>//printf
+# include <math.h>
+# include <fcntl.h>//open
+# include <unistd.h>//write
+# include <stdlib.h>//exit
+# include <stdio.h>//printf
 
 /*	RESOLUTION		*/
 # define MLX_ERROR 1
@@ -51,11 +40,11 @@
 # define COS_60 0.5
 
 /*	COLOURS			*/
-# define WHITE_PIXEL 0xFFFFFF
-# define BLACK_PIXEL 0x000000
-# define RED_PIXEL 0xFF0000
-# define GREEN_PIXEL 0x00FF00
-# define BLUE_PIXEL 0x0000FF
+# define WHITE 0xFFFFFF
+# define BLACK 0x000000
+# define RED 0xFF0000
+# define GREEN 0x00FF00
+# define BLUE 0x0000FF
 
 /*	KEYBOARD		*/
 # define ON_DESTROY_X11 17
@@ -76,30 +65,18 @@
 /*	DATA			*/
 typedef struct s_data
 {
-// helper variables
-	int		colour;
-	int		i;
-	int		tempRx0;
-	int		tempRy0;
-	int		tempRx1;
-	int		tempRy1;
-// context
 	int		fd;
 	void	*mlx;
 	void	*win;
 	void	*img;
 	char	*img_addr;
-  	int		px_bits;
-  	int		line_bytes;
+	int		px_bits;
+	int		line_bytes;
 	int		endian;
-  	int		dist;
-	int		offset;
+	int		dist;
 	int		offset_x;
 	int		offset_y;
-	int		x_extra;
-	int		y_extra;
-	float		h_extra;
-// map
+	float	h_extra;
 	int		**map;
 	int		n_rows;
 	int		rows_width_max;
@@ -112,13 +89,23 @@ typedef struct s_data
 	int		x1;
 	int		y1;
 	int		z1;
-//view
 	int		proj;
-	int		Rx0;
-	int		Ry0;
-	int		Rx1;
-	int		Ry1;
-//bresenham
+	int		rx0;
+	int		ry0;
+	int		rx1;
+	int		ry1;
+//	int		colour;
+//	int		x_extra;
+//	int		y_extra;
+	int		i;
+	int		temp_rx0;
+	int		temp_ry0;
+	int		temp_rx1;
+	int		temp_ry1;
+}			t_data;
+
+typedef struct s_bres
+{
 //	int		BC;
 //	int		DC;
 	int		dx;
@@ -127,30 +114,22 @@ typedef struct s_data
 	int		sy;
 	int		error;
 	int		e2;
-}			t_data;
+}			t_bres;
 
 /*	main.c			*/
 void	initialize_data(t_data *data);
-//static int key_action(int keysym, t_data *data);
 
 /*	read_file.c		*/
-int	read_file(char *file, t_data *data);
+int		read_file(char *file, t_data *data);
 
-/*	render_map.c	*/
-//void	transform_iso(t_data *data);
-//void	transform_front(t_data *data);
-int	render(t_data *data);
-//static void	render_map(t_data *data);
+/*	render.c	*/
+int		render(t_data *data);
+void	img_pixel_put(t_data *data, int rx, int ry, int colour);
 
 /*	line.c			*/
-void	draw_line(t_data *data, char direction);//, int x1, int y1);
-void	transform(t_data *data);
-//static void	bresenham_line_algo(t_data *data);
-//static int	img_pixel_put(t_data *data, int Rx, int Ry, int colour);
+void	draw_line(t_data *data, char direction);
 
-/*	errors.c		*/
-//void	errors(char *s);
-//int	exit_fdf(void);
-int	exit_fdf(char *s);
+/*	exit_fdf.c		*/
+int		exit_fdf(char *s);
 
 #endif
