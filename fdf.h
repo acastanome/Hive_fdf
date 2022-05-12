@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 20:49:30 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/12 18:50:34 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ typedef struct s_data
 	int		ry0;
 	int		rx1;
 	int		ry1;
-//	int		colour;
-//	int		x_extra;
-//	int		y_extra;
+	int		colour;
 	int		i;
 	int		temp_rx0;
 	int		temp_ry0;
@@ -106,8 +104,6 @@ typedef struct s_data
 
 typedef struct s_bres
 {
-//	int		BC;
-//	int		DC;
 	int		dx;
 	int		sx;
 	int		dy;
@@ -127,7 +123,7 @@ int		render(t_data *data);
 void	img_pixel_put(t_data *data, int rx, int ry, int colour);
 
 /*	line.c			*/
-void	draw_line(t_data *data, char direction);
+void	draw_line(t_data *data);
 
 /*	exit_fdf.c		*/
 int		exit_fdf(char *s);

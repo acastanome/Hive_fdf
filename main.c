@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:40 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/11 13:53:07 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/12 18:58:44 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,16 @@ int	main(int argc, char **argv)
 		exit_fdf("mlx_new_window() failed.\n");
 	initialize_data(&data);
 	render(&data);
-//	mlx_loop_hook(data.mlx, &render, &data);
-//	mlx_loop_hook(data.mlx, &render_map, &data);
-//	mlx_hook(data.win, 4, 0, key_hook, &data);
 	mlx_key_hook(data.win, key_action, &data);
 	mlx_hook(data.win, 4, 0, mouse_hook, &data);
-//	mlx_mouse_hook(data.win, mouse_hook, &data);
 	mlx_hook(data.win, ON_DESTROY_X11, 0, exit_fdf, &data);
 	mlx_loop(data.mlx);
-/*test printing
-	int j;
-	data.i = 0;
-	while (data.i < data.n_rows)
-	{
-		j = 0;
-		while (j < data.rows_width[data.i])
-		{
-			printf("%d\t", data.map[data.i][j]);
-			j++;
-		}
-		printf("\n");
-		data.i++;
-	}
-*/
 	return (0);
 }
 
 void	initialize_data(t_data *data)
 {
+	data->colour = WHITE;
 	data->proj = TOP;
 	data->offset_x = 600;
 	data->dist = (WIN_WIDTH - data->offset_x) / data->rows_width_max;
@@ -97,14 +79,24 @@ static int	key_action(int keysym, t_data *data)
 static int	mouse_hook(int button, int x, int y, t_data *data)
 {
 	if (button == 4 && x && y)
-	{
 		data->h_extra = data->h_extra + 0.1;
-		render(data);
-	}
 	if (button == 5)
-	{
 		data->h_extra = data->h_extra - 0.1;
-		render(data);
+	if (button == 1)
+	{
+		if (data->colour != 0x0000ff)
+			data->colour = data->colour >> 8;
+		else
+			data->colour = WHITE;
 	}
+	if (button == 2)
+	{
+		if (data->colour != 0xff0000)
+			data->colour = (data->colour & 0x00ffff) << 8;
+		else
+			data->colour = WHITE;
+	}
+	if (button == 1 || button == 2 || button == 4 || button == 5)
+		render(data);
 	return (0);
 }

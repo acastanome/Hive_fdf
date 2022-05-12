@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 20:30:34 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/12 18:59:05 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ static void	render_map(t_data *data)
 			{
 				data->x1 = data->x0 + 1;
 				data->y1 = data->y0;
-				draw_line(data, 'h');
+				draw_line(data);
 			}
 			if (((data->y0 + 1) < data->n_rows)
 				&& (data->x0 < data->rows_width[data->y0 + 1]))
 			{
 				data->x1 = data->x0;
 				data->y1 = data->y0 + 1;
-				draw_line(data, 'v');
+				draw_line(data);
 			}
 			data->x0++;
 		}
@@ -69,21 +69,22 @@ static void	render_text(t_data *data)
 		mlx_string_put(data->mlx, data->win, 25, 90, WHITE, "Mouse");
 		mlx_string_put(data->mlx, data->win, 50, 115, WHITE,
 			"Wheel: Modify height");
-		mlx_string_put(data->mlx, data->win, 25, 155, WHITE, "Keyboard");
-		mlx_string_put(data->mlx, data->win, 50, 180, WHITE,
-			"Arrows: Position inside window");
+		mlx_string_put(data->mlx, data->win, 50, 135, WHITE,
+			"L / R buttons: Change colours");
+		mlx_string_put(data->mlx, data->win, 25, 175, WHITE, "Keyboard");
 		mlx_string_put(data->mlx, data->win, 50, 200, WHITE,
+			"Arrows: Position inside window");
+		mlx_string_put(data->mlx, data->win, 50, 220, WHITE,
 			"+ - : Change zoom");
-		mlx_string_put(data->mlx, data->win, 50, 220, WHITE, "R: Reset view");
-		mlx_string_put(data->mlx, data->win, 50, 250, WHITE, "Perspectives:");
-		mlx_string_put(data->mlx, data->win, 75, 270, WHITE, "F: Front");
-		mlx_string_put(data->mlx, data->win, 75, 290, WHITE, "T: Top");
-		mlx_string_put(data->mlx, data->win, 75, 310, WHITE, "I: Isometric");
-		mlx_string_put(data->mlx, data->win, 75, 330, WHITE, "B: Bimetric");
-		mlx_string_put(data->mlx, data->win, 50, 360, WHITE, "Esc: Exit");
+		mlx_string_put(data->mlx, data->win, 50, 240, WHITE, "R: Reset view");
+		mlx_string_put(data->mlx, data->win, 50, 270, WHITE, "Perspectives:");
+		mlx_string_put(data->mlx, data->win, 75, 290, WHITE, "F: Front");
+		mlx_string_put(data->mlx, data->win, 75, 310, WHITE, "T: Top");
+		mlx_string_put(data->mlx, data->win, 75, 330, WHITE, "I: Isometric");
+		mlx_string_put(data->mlx, data->win, 75, 350, WHITE, "B: Bimetric");
+		mlx_string_put(data->mlx, data->win, 50, 380, WHITE, "Esc: Exit");
 		mlx_string_put(data->mlx, data->win, 25, WIN_HEIGHT - 50, WHITE,
 			"Bresenham line algorithm");
-		mlx_string_put(data->mlx, data->win, 350, 300, WHITE, "x");
 	}
 }
 

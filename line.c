@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 20:44:38 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/12 18:47:58 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,18 @@ static int	line_through_win(t_data *data);
  * Then checks if the line goes through/ is inside the window before calling
  * bresenham_line_algo() to draw it
  */
-void	draw_line(t_data *data, char direction)
+void	draw_line(t_data *data)
 {
 	data->rx0 = data->x0 * data->dist;
 	data->ry0 = data->y0 * data->dist;
 	data->rx1 = data->x1 * data->dist;
 	data->ry1 = data->y1 * data->dist;
 	data->z0 = data->map[data->y0][data->x0];
-	if ((data->z0 != 0) && direction)//TO DO:useless dir
+	if (data->z0 != 0)
 		data->z0 = (data->z0 * data->h_extra) * data->dist;
 	data->z1 = data->map[data->y1][data->x1];
 	if (data->z1 != 0)
 		data->z1 = (data->z1 * data->h_extra) * data->dist;
-/*	if (direction == 'h')
-		data->BC = data->rx1 - data->rx0;
-	else
-		data->BC = data->ry1 - data->ry0;*/
 	if (data->proj != TOP)
 		transform(data);
 	if (line_through_win(data) == 1)
@@ -124,7 +120,7 @@ static void	bresenham_line_algo(t_data *data, t_bres *bres)
 	{
 		if ((data->rx0 >= 0 && data->rx0 < WIN_WIDTH)
 			&& (data->ry0 >= 0 && data->ry0 < WIN_HEIGHT))
-			img_pixel_put(data, data->rx0, data->ry0, RED);
+			img_pixel_put(data, data->rx0, data->ry0, data->colour);
 		if (data->rx0 == data->rx1 && data->ry0 == data->ry1)
 			break ;
 		bres->e2 = 2 * bres->error;
