@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/12 18:50:34 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/12 19:02:09 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 # include "mlx.h"
 
 # include <math.h>
-# include <fcntl.h>//open
-# include <unistd.h>//write
-# include <stdlib.h>//exit
-# include <stdio.h>//printf
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 /*	RESOLUTION		*/
 # define MLX_ERROR 1
