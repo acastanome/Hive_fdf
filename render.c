@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:14 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/12 18:59:05 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:28:33 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 static void	render_map(t_data *data);
 static void	render_text(t_data *data);
 
+/*
+ * render() clears the window before calling render_map() to create the image to
+ * render, mlx_put_image_to_window() to display it, and render_text() to add the
+ * (instruction) text on top. Finally, it destroys the image before returning.
+ */
 int	render(t_data *data)
 {
 	mlx_clear_window(data->mlx, data->win);
@@ -32,6 +37,10 @@ int	render(t_data *data)
 	return (0);
 }
 
+/*
+ * render_map() will call draw_line() to add the necessary pixels to the image
+ * for each line between the maps points.
+ */
 static void	render_map(t_data *data)
 {
 	if (data->win == NULL)
@@ -61,6 +70,9 @@ static void	render_map(t_data *data)
 	}
 }
 
+/*
+ * render_text() displays the instructions in the window saved in data->win.
+ */
 static void	render_text(t_data *data)
 {
 	if (data->win != NULL)
@@ -104,4 +116,20 @@ void	img_pixel_put(t_data *data, int rx, int ry, int colour)
 	if (image == NULL)
 		exit_fdf("img_pixel_put() failed to allocate image pixel.\n");
 	*(unsigned int *)image = colour;
+}
+
+/*
+ * colour() sets the colour for the whole line, depending is the line at 0
+ * height or not.
+ */
+int	colour(t_data *data)
+{
+	if ((data->z0 == data->z1) && (data->z0 == 0))
+	{
+		if (data->colour == WHITE)
+			return (0x00ffff);
+		return (WHITE);
+	}
+	else
+		return (data->colour);
 }

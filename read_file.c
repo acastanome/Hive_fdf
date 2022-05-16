@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 12:41:59 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/10 20:16:09 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:38:13 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	init_map(char *file, t_data *data);
 static void	init_row(char *line, t_data *data);
+static void	max_min_h(t_data *data);
 
 int	read_file(char *file, t_data *data)
 {
@@ -79,8 +80,8 @@ static void	init_row(char *line, t_data *data)
 		exit_fdf("Error: Failed to allocate data->map[data->i].\n");
 	temp = ft_strsplit(line, ' ');
 	j = 0;
-	data->h_min = data->map[0][0];
-	data->h_max = data->map[0][0];
+	if (data->i == 0 && j == 0)
+		max_min_h(data);
 	while (j < data->rows_width[data->i])
 	{
 		data->map[data->i][j] = ft_atoi(temp[j]);
@@ -91,4 +92,10 @@ static void	init_row(char *line, t_data *data)
 		j++;
 	}
 	ft_memdelarray((void *)&temp);
+}
+
+static void	max_min_h(t_data *data)
+{
+	data->h_min = data->map[0][0];
+	data->h_max = data->map[0][0];
 }

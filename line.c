@@ -6,16 +6,16 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:49 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/12 18:47:58 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:39:28 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	bresenham_line_algo_setup(t_data *data);
-static void	bresenham_line_algo(t_data *data, t_bres *bres);
 static void	transform(t_data *data);
 static int	line_through_win(t_data *data);
+static void	bresenham_line_algo_setup(t_data *data);
+static void	bresenham_line_algo(t_data *data, t_bres *bres);
 
 /*
  * draw_line() calculates the starting and ending points of the line to draw,
@@ -72,7 +72,13 @@ static void	transform(t_data *data)
 	data->ry1 = data->temp_ry1;
 }
 
-int	line_through_win(t_data *data)
+/*
+ * line_through_win() checks if a line crosses (or is in) the window, by
+ * checking if the starting and ending points are at the same side of the
+ * window.
+ * Return values: 1 if it crosses, 0 if it doesn't
+ */
+static int	line_through_win(t_data *data)
 {
 	data->rx0 = data->rx0 + data->offset_x;
 	data->ry0 = data->ry0 + data->offset_y;
@@ -120,7 +126,7 @@ static void	bresenham_line_algo(t_data *data, t_bres *bres)
 	{
 		if ((data->rx0 >= 0 && data->rx0 < WIN_WIDTH)
 			&& (data->ry0 >= 0 && data->ry0 < WIN_HEIGHT))
-			img_pixel_put(data, data->rx0, data->ry0, data->colour);
+			img_pixel_put(data, data->rx0, data->ry0, colour(data));
 		if (data->rx0 == data->rx1 && data->ry0 == data->ry1)
 			break ;
 		bres->e2 = 2 * bres->error;

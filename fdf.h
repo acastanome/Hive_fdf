@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:56:23 by acastano          #+#    #+#             */
-/*   Updated: 2022/05/12 19:02:09 by acastano         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:26:54 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@
 
 /*	COLOURS			*/
 # define WHITE 0xFFFFFF
-# define BLACK 0x000000
-# define RED 0xFF0000
-# define GREEN 0x00FF00
-# define BLUE 0x0000FF
 
 /*	KEYBOARD		*/
 # define ON_DESTROY_X11 17
@@ -80,8 +76,8 @@ typedef struct s_data
 	int		n_rows;
 	int		rows_width_max;
 	int		*rows_width;
-	float	h_max;
-	float	h_min;
+	int		h_max;
+	int		h_min;
 	int		x0;
 	int		y0;
 	int		z0;
@@ -120,6 +116,7 @@ int		read_file(char *file, t_data *data);
 /*	render.c	*/
 int		render(t_data *data);
 void	img_pixel_put(t_data *data, int rx, int ry, int colour);
+int		colour(t_data *data);
 
 /*	line.c			*/
 void	draw_line(t_data *data);
